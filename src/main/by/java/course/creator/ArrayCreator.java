@@ -1,4 +1,4 @@
-package creator;
+package main.by.java.course.creator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ArrayCreator {
     private static Logger logger = LogManager.getLogger();
+    private static String[] array;
 
     public static String[] factoryArray(List<String> strings) {
         String[] result = new String[strings.size()];
@@ -16,11 +17,5 @@ public class ArrayCreator {
         }
 
         return result;
-    }
-
-    public static void showArray(String[] arr) {
-        for (String element : arr) {
-            System.out.println(element + ' ');
-        }
     }
 }

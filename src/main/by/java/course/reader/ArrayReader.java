@@ -1,4 +1,4 @@
-package reader;
+package main.by.java.course.reader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
