@@ -9,8 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ArrayReader {
-    private static final String ELEMENT_REGEX = "\\s+";
-
     private static final Logger logger = LogManager.getLogger(ArrayReader.class);
 
     public String readString(String filePath) throws MyArrayException {
