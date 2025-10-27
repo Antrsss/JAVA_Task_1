@@ -11,6 +11,13 @@ public class ArrayValidator {
     private static final Logger logger = LogManager.getLogger();
 
     public static boolean validateString(String string) {
+        logger.debug("Validating string: '{}'", string);
+
+        if (string == null) {
+            logger.warn("Validation failed: string is null");
+            return false;
+        }
+
         return string.matches(VALID_STRING_REGEX);
     }
 }
