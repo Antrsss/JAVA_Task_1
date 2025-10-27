@@ -10,15 +10,7 @@ public class ArrayValidator {
     private static final String VALID_STRING_REGEX = "[a-zA-Z]+";
     private static final Logger logger = LogManager.getLogger();
 
-    public static List<String> filterValidStrings(String[] strings) {
-        List<String> correctStrings = new ArrayList<>();
-
-        for (var str : strings) {
-            if (str.matches(VALID_STRING_REGEX)) {
-                correctStrings.add(str);
-            }
-        }
-
-        return correctStrings;
+    public static boolean validateString(String string) {
+        return string.matches(VALID_STRING_REGEX);
     }
 }

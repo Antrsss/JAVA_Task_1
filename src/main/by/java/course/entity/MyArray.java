@@ -27,14 +27,6 @@ public class MyArray {
         return array.length;
     }
 
-    public String getValueAtIndex(int index) {
-        try {
-            return array[index];
-        } catch (Exception) {
-            //Out Of Boundaries
-        }
-    }
-
     public boolean isEmpty() {
         return array.length == 0;
     }

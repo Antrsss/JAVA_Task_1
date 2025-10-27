@@ -11,12 +11,9 @@ public class Main {
     public static void main(String[] args) {
 
         String[] strings = ArrayReader.readArray(System.in);
-        List<String> validStrings = ArrayValidator.filterValidStrings(strings);
 
         MyArray array = MyArray.newBuilder()
                 .setMyArray(strings)
                 .build();
-
-        String[] stringArray = ArrayCreator.factoryArray(validStrings);
     }
 }
