@@ -3,7 +3,7 @@ package main.by.java.course.main;
 import main.by.java.course.entity.MyArray;
 import main.by.java.course.exception.MyArrayException;
 import main.by.java.course.parser.impl.StringParserImpl;
-import main.by.java.course.reader.ArrayReader;
+import main.by.java.course.reader.impl.StringReaderImpl;
 import main.by.java.course.service.operation.impl.MyArrayOperationImpl;
 import main.by.java.course.service.sort.impl.MyArraySortImpl;
 import org.apache.logging.log4j.LogManager;
@@ -45,7 +45,7 @@ public class Main {
 
     private static String readFile() throws MyArrayException {
         logger.info("=== STEP 1: Reading file ===");
-        ArrayReader reader = new ArrayReader();
+        StringReaderImpl reader = new StringReaderImpl();
 
         logger.info("Reading file from: {}", FILE_PATH);
         String content = reader.readString(FILE_PATH);

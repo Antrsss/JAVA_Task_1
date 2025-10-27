@@ -1,4 +1,4 @@
-package main.by.java.course.reader;
+package main.by.java.course.reader.impl;
 
 import main.by.java.course.exception.MyArrayException;
 import org.apache.logging.log4j.LogManager;
@@ -8,8 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ArrayReader {
-    private static final Logger logger = LogManager.getLogger(ArrayReader.class);
+public class StringReaderImpl {
+    private static final Logger logger = LogManager.getLogger(StringReaderImpl.class);
 
     public String readString(String filePath) throws MyArrayException {
         logger.debug("Attempting to read file from: {}", filePath);
