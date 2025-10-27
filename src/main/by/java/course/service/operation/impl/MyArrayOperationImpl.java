@@ -47,7 +47,34 @@ public class MyArrayOperationImpl implements MyArrayOperation {
 
     @Override
     public MyArray replaceMyArrayElement(MyArray myArray, String value, int index) {
-        return null;
+        if (myArray == null) {
+            throw new IllegalArgumentException("MyArray cannot be null");
+        }
+
+        if (value == null) {
+            throw new IllegalArgumentException("Replacement value cannot be null");
+        }
+
+        String[] srcArray = myArray.getMyArray();
+
+        if (index < 0 || index >= srcArray.length) {
+            throw new IllegalArgumentException("Index out of bounds: " + index +
+                    ". Array size: " + srcArray.length);
+        }
+
+
+        String[] newArray = new String[srcArray.length];
+        for (int i = 0; i < srcArray.length; i++) {
+            if (i == index) {
+                newArray[i] = value;
+            } else {
+                newArray[i] = srcArray[i];
+            }
+        }
+
+        return MyArray.newBuilder()
+                .setMyArray(newArray)
+                .build();
     }
 
     @Override
