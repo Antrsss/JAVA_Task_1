@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArrayValidator {
-    private static final String VALID_STRING_REGEX = "[a-zA-Z]+";
+    private static final String VALID_STRING_REGEX = "([a-zA-Z]+\\s*)+";
     private static final Logger logger = LogManager.getLogger();
 
     public static boolean validateString(String string) {
