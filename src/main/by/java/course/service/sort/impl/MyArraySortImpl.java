@@ -1,79 +1,111 @@
 package main.by.java.course.service.sort.impl;
 
 import main.by.java.course.entity.MyArray;
+import main.by.java.course.exception.MyArrayException;
 import main.by.java.course.service.sort.MyArraySort;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MyArraySortImpl implements MyArraySort {
+    private static final Logger logger = LogManager.getLogger(MyArraySortImpl.class);
 
     @Override
-    public MyArray selectionSort(MyArray myArray) {
-        if (myArray == null || myArray.isEmpty()) {
+    public MyArray selectionSort(MyArray myArray) throws MyArrayException {
+        logger.debug("Starting selection sort for MyArray");
+
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null for sorting");
+        }
+
+        if (myArray.isEmpty()) {
+            logger.warn("Empty array provided to selection sort, returning original");
             return myArray;
         }
 
-        String[] array = myArray.getMyArray().clone(); // Работаем с копией
+        try {
+            String[] array = myArray.getMyArray().clone();
+            logger.debug("Cloned array with {} elements for selection sort", array.length);
 
-        for (int i = 0; i < array.length - 1; i++) {
-            int minIndex = i;
+            int swapCount = 0;
+            for (int i = 0; i < array.length - 1; i++) {
+                int minIndex = i;
 
-            // Находим индекс минимального элемента в оставшейся части
-            for (int j = i + 1; j < array.length; j++) {
-                if (array[j].compareTo(array[minIndex]) < 0) {
-                    minIndex = j;
+                for (int j = i + 1; j < array.length; j++) {
+                    if (array[j].compareTo(array[minIndex]) < 0) {
+                        minIndex = j;
+                    }
+                }
+
+                if (minIndex != i) {
+                    String temp = array[i];
+                    array[i] = array[minIndex];
+                    array[minIndex] = temp;
+                    swapCount++;
+                    logger.trace("Swapped elements at indices {} and {}", i, minIndex);
                 }
             }
 
-            // Меняем местами текущий элемент с минимальным
-            if (minIndex != i) {
-                String temp = array[i];
-                array[i] = array[minIndex];
-                array[minIndex] = temp;
-            }
-        }
+            logger.debug("Selection sort completed with {} swaps", swapCount);
+            return MyArray.newBuilder()
+                    .setMyArray(array)
+                    .build();
 
-        return MyArray.newBuilder()
-                .setMyArray(array)
-                .build();
+        } catch (Exception e) {
+            logger.error("Error during selection sort: {}", e.getMessage());
+            throw new MyArrayException("Selection sort failed", e);
+        }
     }
 
     @Override
-    public MyArray mergeSort(MyArray myArray) {
-        if (myArray == null || myArray.isEmpty()) {
+    public MyArray mergeSort(MyArray myArray) throws MyArrayException {
+        logger.debug("Starting merge sort for MyArray");
+
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null for sorting");
+        }
+
+        if (myArray.isEmpty()) {
+            logger.warn("Empty array provided to merge sort, returning original");
             return myArray;
         }
 
-        String[] array = myArray.getMyArray().clone();
-        mergeSort(array, 0, array.length - 1);
+        try {
+            String[] array = myArray.getMyArray().clone();
+            logger.debug("Cloned array with {} elements for merge sort", array.length);
 
-        return MyArray.newBuilder()
-                .setMyArray(array)
-                .build();
+            mergeSort(array, 0, array.length - 1);
+
+            logger.debug("Merge sort completed successfully");
+            return MyArray.newBuilder()
+                    .setMyArray(array)
+                    .build();
+
+        } catch (Exception e) {
+            logger.error("Error during merge sort: {}", e.getMessage());
+            throw new MyArrayException("Merge sort failed", e);
+        }
     }
 
-    private void mergeSort(String[] array, int left, int right) {
+    private void mergeSort(String[] array, int left, int right) throws MyArrayException {
         if (left < right) {
             int mid = left + (right - left) / 2;
+            logger.trace("Merge sort recursion: left={}, mid={}, right={}", left, mid, right);
 
-            // Сортируем левую и правую половины
             mergeSort(array, left, mid);
             mergeSort(array, mid + 1, right);
-
-            // Сливаем отсортированные половины
             merge(array, left, mid, right);
         }
     }
 
     private void merge(String[] array, int left, int mid, int right) {
-        // Создаем временные массивы для левой и правой половин
         String[] leftArray = new String[mid - left + 1];
         String[] rightArray = new String[right - mid];
 
-        // Копируем данные во временные массивы
         System.arraycopy(array, left, leftArray, 0, leftArray.length);
         System.arraycopy(array, mid + 1, rightArray, 0, rightArray.length);
 
-        // Сливаем временные массивы обратно в основной
         int i = 0, j = 0, k = left;
+        int mergeCount = 0;
 
         while (i < leftArray.length && j < rightArray.length) {
             if (leftArray[i].compareTo(rightArray[j]) <= 0) {
@@ -84,89 +116,135 @@ public class MyArraySortImpl implements MyArraySort {
                 j++;
             }
             k++;
+            mergeCount++;
         }
 
-        // Копируем оставшиеся элементы левой половины
         while (i < leftArray.length) {
             array[k] = leftArray[i];
             i++;
             k++;
+            mergeCount++;
         }
 
-        // Копируем оставшиеся элементы правой половины
         while (j < rightArray.length) {
             array[k] = rightArray[j];
             j++;
             k++;
+            mergeCount++;
         }
+
+        logger.trace("Merged {} elements from indices {} to {}", mergeCount, left, right);
     }
 
     @Override
-    public MyArray quickSort(MyArray myArray) {
-        if (myArray == null || myArray.isEmpty()) {
+    public MyArray quickSort(MyArray myArray) throws MyArrayException {
+        logger.debug("Starting quick sort for MyArray");
+
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null for sorting");
+        }
+
+        if (myArray.isEmpty()) {
+            logger.warn("Empty array provided to quick sort, returning original");
             return myArray;
         }
 
-        String[] array = myArray.getMyArray().clone();
-        quickSort(array, 0, array.length - 1);
+        try {
+            String[] array = myArray.getMyArray().clone();
+            logger.debug("Cloned array with {} elements for quick sort", array.length);
 
-        return MyArray.newBuilder()
-                .setMyArray(array)
-                .build();
+            quickSort(array, 0, array.length - 1);
+
+            logger.debug("Quick sort completed successfully");
+            return MyArray.newBuilder()
+                    .setMyArray(array)
+                    .build();
+
+        } catch (Exception e) {
+            logger.error("Error during quick sort: {}", e.getMessage());
+            throw new MyArrayException("Quick sort failed", e);
+        }
     }
 
-    private void quickSort(String[] array, int low, int high) {
+    private void quickSort(String[] array, int low, int high) throws MyArrayException {
         if (low < high) {
-            // Разделяем массив и получаем индекс опорного элемента
-            int pivotIndex = partition(array, low, high);
+            logger.trace("Quick sort partition: low={}, high={}", low, high);
 
-            // Рекурсивно сортируем элементы до и после опорного
+            int pivotIndex = partition(array, low, high);
+            logger.trace("Pivot element '{}' placed at index {}", array[pivotIndex], pivotIndex);
+
             quickSort(array, low, pivotIndex - 1);
             quickSort(array, pivotIndex + 1, high);
         }
     }
 
-    private int partition(String[] array, int low, int high) {
-        // Выбираем последний элемент как опорный
-        String pivot = array[high];
-        int i = low - 1; // Индекс меньшего элемента
+    private int partition(String[] array, int low, int high) throws MyArrayException {
+        try {
+            String pivot = array[high];
+            int i = low - 1;
+            int swapCount = 0;
 
-        for (int j = low; j < high; j++) {
-            // Если текущий элемент меньше или равен опорному
-            if (array[j].compareTo(pivot) <= 0) {
-                i++;
+            for (int j = low; j < high; j++) {
+                if (array[j].compareTo(pivot) <= 0) {
+                    i++;
 
-                // Меняем элементы местами
-                String temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+                    if (i != j) {
+                        String temp = array[i];
+                        array[i] = array[j];
+                        array[j] = temp;
+                        swapCount++;
+                        logger.trace("Swapped elements at indices {} and {}", i, j);
+                    }
+                }
             }
+
+            if (i + 1 != high) {
+                String temp = array[i + 1];
+                array[i + 1] = array[high];
+                array[high] = temp;
+                swapCount++;
+                logger.trace("Placed pivot at final position: index {}", i + 1);
+            }
+
+            logger.trace("Partition completed with {} swaps, pivot index: {}", swapCount, i + 1);
+            return i + 1;
+
+        } catch (Exception e) {
+            logger.error("Error during partition: {}", e.getMessage());
+            throw new MyArrayException("Partition failed in quick sort", e);
         }
-
-        // Помещаем опорный элемент на правильную позицию
-        String temp = array[i + 1];
-        array[i + 1] = array[high];
-        array[high] = temp;
-
-        return i + 1;
     }
 
     // Дополнительные методы для разных стратегий выбора опорного элемента
 
-    public MyArray quickSortWithFirstPivot(MyArray myArray) {
-        if (myArray == null || myArray.isEmpty()) {
+    public MyArray quickSortWithFirstPivot(MyArray myArray) throws MyArrayException {
+        logger.debug("Starting quick sort with first element as pivot");
+
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null for sorting");
+        }
+
+        if (myArray.isEmpty()) {
+            logger.warn("Empty array provided to quick sort, returning original");
             return myArray;
         }
 
-        String[] array = myArray.getMyArray().clone();
-        quickSortWithFirstPivot(array, 0, array.length - 1);
+        try {
+            String[] array = myArray.getMyArray().clone();
+            quickSortWithFirstPivot(array, 0, array.length - 1);
 
-        return MyArray.newBuilder()
-                .setMyArray(array)
-                .build();
+            logger.debug("Quick sort with first pivot completed successfully");
+            return MyArray.newBuilder()
+                    .setMyArray(array)
+                    .build();
+
+        } catch (Exception e) {
+            logger.error("Error during quick sort with first pivot: {}", e.getMessage());
+            throw new MyArrayException("Quick sort with first pivot failed", e);
+        }
     }
 
-    private void quickSortWithFirstPivot(String[] array, int low, int high) {
+    private void quickSortWithFirstPivot(String[] array, int low, int high) throws MyArrayException {
         if (low < high) {
             int pivotIndex = partitionWithFirstPivot(array, low, high);
             quickSortWithFirstPivot(array, low, pivotIndex - 1);
@@ -174,24 +252,34 @@ public class MyArraySortImpl implements MyArraySort {
         }
     }
 
-    private int partitionWithFirstPivot(String[] array, int low, int high) {
-        // Выбираем первый элемент как опорный
-        String pivot = array[low];
-        int i = low;
+    private int partitionWithFirstPivot(String[] array, int low, int high) throws MyArrayException {
+        try {
+            String pivot = array[low];
+            int i = low;
+            int swapCount = 0;
 
-        for (int j = low + 1; j <= high; j++) {
-            if (array[j].compareTo(pivot) <= 0) {
-                i++;
-                String temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+            for (int j = low + 1; j <= high; j++) {
+                if (array[j].compareTo(pivot) <= 0) {
+                    i++;
+                    String temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                    swapCount++;
+                    logger.trace("Swapped elements at indices {} and {}", i, j);
+                }
             }
+
+            String temp = array[i];
+            array[i] = array[low];
+            array[low] = temp;
+            swapCount++;
+
+            logger.trace("Partition with first pivot completed with {} swaps, pivot index: {}", swapCount, i);
+            return i;
+
+        } catch (Exception e) {
+            logger.error("Error during partition with first pivot: {}", e.getMessage());
+            throw new MyArrayException("Partition with first pivot failed", e);
         }
-
-        String temp = array[i];
-        array[i] = array[low];
-        array[low] = temp;
-
-        return i;
     }
 }

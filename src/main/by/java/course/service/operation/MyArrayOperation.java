@@ -1,13 +1,14 @@
 package main.by.java.course.service.operation;
 
 import main.by.java.course.entity.MyArray;
+import main.by.java.course.exception.MyArrayException;
 
 public interface MyArrayOperation {
-    String findMinValue(MyArray myArray);
-    String findMaxValue(MyArray myArray);
-    MyArray replaceMyArrayElement(MyArray myArray, String value, int index);
-    double calculateAverageValue(MyArray myArray);
-    int calculateSum(MyArray myArray);
-    int calculatePositiveValues(MyArray myArray);
-    int calculateNegativeValues(MyArray myArray);
+    String findMinValue(MyArray myArray) throws MyArrayException;
+    String findMaxValue(MyArray myArray) throws MyArrayException;
+    MyArray replaceMyArrayElement(MyArray myArray, String value, int index) throws MyArrayException;
+    double calculateAverageValue(MyArray myArray) throws MyArrayException;
+    int calculateSum(MyArray myArray) throws MyArrayException;
+    int calculatePositiveValues(MyArray myArray) throws MyArrayException;
+    int calculateNegativeValues(MyArray myArray) throws MyArrayException;
 }

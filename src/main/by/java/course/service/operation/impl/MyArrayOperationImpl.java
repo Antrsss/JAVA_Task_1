@@ -1,14 +1,22 @@
 package main.by.java.course.service.operation.impl;
 
 import main.by.java.course.entity.MyArray;
+import main.by.java.course.exception.MyArrayException;
 import main.by.java.course.service.operation.MyArrayOperation;
 
 public class MyArrayOperationImpl implements MyArrayOperation {
 
     @Override
-    public String findMinValue(MyArray myArray) {
-        String[] arr = myArray.getMyArray();
+    public String findMinValue(MyArray myArray) throws MyArrayException {
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null");
+        }
 
+        if (myArray.isEmpty()) {
+            throw new MyArrayException("Cannot find min value in empty array");
+        }
+
+        String[] arr = myArray.getMyArray();
         int minValue = calculateArrayElement(arr[0]);
         int minIndex = 0;
         int currentValue;
@@ -26,9 +34,16 @@ public class MyArrayOperationImpl implements MyArrayOperation {
     }
 
     @Override
-    public String findMaxValue(MyArray myArray) {
-        String[] arr = myArray.getMyArray();
+    public String findMaxValue(MyArray myArray) throws MyArrayException {
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null");
+        }
 
+        if (myArray.isEmpty()) {
+            throw new MyArrayException("Cannot find max value in empty array");
+        }
+
+        String[] arr = myArray.getMyArray();
         int maxValue = calculateArrayElement(arr[0]);
         int maxIndex = 0;
         int currentValue;
@@ -46,22 +61,21 @@ public class MyArrayOperationImpl implements MyArrayOperation {
     }
 
     @Override
-    public MyArray replaceMyArrayElement(MyArray myArray, String value, int index) {
+    public MyArray replaceMyArrayElement(MyArray myArray, String value, int index) throws MyArrayException {
         if (myArray == null) {
-            throw new IllegalArgumentException("MyArray cannot be null");
+            throw new MyArrayException("MyArray cannot be null");
         }
 
         if (value == null) {
-            throw new IllegalArgumentException("Replacement value cannot be null");
+            throw new MyArrayException("Replacement value cannot be null");
         }
 
         String[] srcArray = myArray.getMyArray();
 
         if (index < 0 || index >= srcArray.length) {
-            throw new IllegalArgumentException("Index out of bounds: " + index +
+            throw new MyArrayException("Index out of bounds: " + index +
                     ". Array size: " + srcArray.length);
         }
-
 
         String[] newArray = new String[srcArray.length];
         for (int i = 0; i < srcArray.length; i++) {
@@ -78,23 +92,39 @@ public class MyArrayOperationImpl implements MyArrayOperation {
     }
 
     @Override
-    public double calculateAverageValue(MyArray myArray) {
+    public double calculateAverageValue(MyArray myArray) throws MyArrayException {
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null");
+        }
+
+        if (myArray.isEmpty()) {
+            throw new MyArrayException("Cannot calculate average for empty array");
+        }
+
         String[] arr = myArray.getMyArray();
         int currentSum = 0;
 
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             currentSum += calculateArrayElement(arr[i]);
         }
 
-        return (double)currentSum / arr.length;
+        return (double) currentSum / arr.length;
     }
 
     @Override
-    public int calculateSum(MyArray myArray) {
+    public int calculateSum(MyArray myArray) throws MyArrayException {
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null");
+        }
+
+        if (myArray.isEmpty()) {
+            return 0;
+        }
+
         String[] arr = myArray.getMyArray();
         int currentSum = 0;
 
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             currentSum += calculateArrayElement(arr[i]);
         }
 
@@ -102,11 +132,19 @@ public class MyArrayOperationImpl implements MyArrayOperation {
     }
 
     @Override
-    public int calculatePositiveValues(MyArray myArray) {
+    public int calculatePositiveValues(MyArray myArray) throws MyArrayException {
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null");
+        }
+
+        if (myArray.isEmpty()) {
+            return 0;
+        }
+
         String[] arr = myArray.getMyArray();
         int positiveCount = 0;
 
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (calculateArrayElement(arr[i]) > 0) {
                 positiveCount += 1;
             }
@@ -116,11 +154,19 @@ public class MyArrayOperationImpl implements MyArrayOperation {
     }
 
     @Override
-    public int calculateNegativeValues(MyArray myArray) {
+    public int calculateNegativeValues(MyArray myArray) throws MyArrayException {
+        if (myArray == null) {
+            throw new MyArrayException("MyArray cannot be null");
+        }
+
+        if (myArray.isEmpty()) {
+            return 0;
+        }
+
         String[] arr = myArray.getMyArray();
         int negativeCount = 0;
 
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (calculateArrayElement(arr[i]) < 0) {
                 negativeCount += 1;
             }
@@ -129,15 +175,23 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         return negativeCount;
     }
 
-    private int calculateArrayElement(String str) {
+    private int calculateArrayElement(String str) throws MyArrayException {
+        if (str == null) {
+            throw new MyArrayException("String element cannot be null");
+        }
+
+        if (str.isEmpty()) {
+            throw new MyArrayException("String element cannot be empty");
+        }
+
         int value = 0;
         char c;
 
         for (int i = 0; i < str.length(); i++) {
             c = str.charAt(i);
-            if (c < 'Z') {
+            if (c > 'A' && c < 'Z') {
                 value += c;
-            } else if (c > 'a') {
+            } else if (c > 'a' && c < 'z') {
                 value -= c;
             }
         }
