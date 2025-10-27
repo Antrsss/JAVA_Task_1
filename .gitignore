@@ -1,6 +1,7 @@
 ### IntelliJ IDEA ###
 .idea/
 libs/
+logs/
 
 out/
 !**/src/main/**/out/
