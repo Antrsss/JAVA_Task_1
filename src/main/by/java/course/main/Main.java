@@ -10,10 +10,5 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        String[] strings = ArrayReader.readArray(System.in);
-
-        MyArray array = MyArray.newBuilder()
-                .setMyArray(strings)
-                .build();
     }
 }

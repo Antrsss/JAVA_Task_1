@@ -11,20 +11,16 @@ public class MyArray {
     private final String[] array;
 
     private MyArray(String[] array) {
-        if (array != null) {
-            this.array = Arrays.copyOf(array, array.length);
-        } else {
+        if (array == null) {
             this.array = new String[0];
+        } else {
+            this.array = Arrays.copyOf(array, array.length);
         }
         logger.debug("MyArray created with size: {}", this.array.length);
     }
 
     public String[] getMyArray() {
         return Arrays.copyOf(array, array.length);
-    }
-
-    public int getSize() {
-        return array.length;
     }
 
     public boolean isEmpty() {
@@ -45,19 +41,35 @@ public class MyArray {
             return 0;
         }
 
-        return 10 * array[0].hashCode();
+        return array[0].hashCode();
     }
 
     @Override
     public boolean equals(Object otherObject) {
-        if (this == otherObject) return true;
+        if (this == otherObject) {
+            return true;
+        }
 
-        if (otherObject == null) return false;
-
-        if (getClass() != otherObject.getClass()) return false;
+        if (otherObject == null || getClass() != otherObject.getClass()) {
+            return false;
+        }
 
         MyArray myArray = (MyArray)otherObject;
-        return this.array == myArray.array;
+
+        if (this.array.length != myArray.getMyArray().length){
+            return false;
+        }
+
+        for (int i = 0; i < this.array.length; i++) {
+            String thisElement = this.array[i];
+            String otherElement = myArray.array[i];
+
+            if (thisElement == null || !thisElement.equals(otherElement)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static Builder newBuilder() {
@@ -68,10 +80,10 @@ public class MyArray {
         private String[] array;
 
         public Builder setMyArray(String[] array) {
-            if (array != null) {
-                this.array = Arrays.copyOf(array, array.length);
-            } else {
+            if (array == null) {
                 this.array = new String[0];
+            } else {
+                this.array = Arrays.copyOf(array, array.length);
             }
 
             return this;
