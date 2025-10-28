@@ -3,7 +3,7 @@ package main.by.java.course.main;
 import main.by.java.course.entity.MyArray;
 import main.by.java.course.exception.MyArrayException;
 import main.by.java.course.parser.impl.StringParserImpl;
-import main.by.java.course.reader.impl.StringReaderImpl;
+import main.by.java.course.reader.impl.MyStringReaderImpl;
 import main.by.java.course.service.operation.impl.MyArrayOperationImpl;
 import main.by.java.course.service.sort.impl.MyArraySortImpl;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
-    private static final String FILE_PATH = "src/array_files/data.txt";
+    private static final String FILE_PATH = "array_files/data.txt";
 
     public static void main(String[] args) {
         logger.info("Starting MyArray application");
@@ -45,7 +45,7 @@ public class Main {
 
     private static String readFile() throws MyArrayException {
         logger.info("=== STEP 1: Reading file ===");
-        StringReaderImpl reader = new StringReaderImpl();
+        MyStringReaderImpl reader = new MyStringReaderImpl();
 
         logger.info("Reading file from: {}", FILE_PATH);
         String content = reader.readString(FILE_PATH);

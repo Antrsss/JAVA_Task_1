@@ -104,8 +104,8 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int currentSum = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            currentSum += calculateArrayElement(arr[i]);
+        for (String string : arr) {
+            currentSum += calculateArrayElement(string);
         }
 
         return (double) currentSum / arr.length;
@@ -124,8 +124,8 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int currentSum = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            currentSum += calculateArrayElement(arr[i]);
+        for (String string : arr) {
+            currentSum += calculateArrayElement(string);
         }
 
         return currentSum;
@@ -144,8 +144,8 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int positiveCount = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            if (calculateArrayElement(arr[i]) > 0) {
+        for (String string : arr) {
+            if (calculateArrayElement(string) > 0) {
                 positiveCount += 1;
             }
         }
@@ -166,8 +166,8 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int negativeCount = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            if (calculateArrayElement(arr[i]) < 0) {
+        for (String string : arr) {
+            if (calculateArrayElement(string) < 0) {
                 negativeCount += 1;
             }
         }

@@ -2,12 +2,12 @@ package main.by.java.course.parser.impl;
 
 import main.by.java.course.exception.MyArrayException;
 import main.by.java.course.parser.StringParser;
-import main.by.java.course.validator.MyArrayValidator;
+import main.by.java.course.validator.impl.MyArrayValidatorImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class StringParserImpl implements StringParser {
-    private final static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public String[] parseString(String string) throws MyArrayException {
@@ -21,7 +21,7 @@ public class StringParserImpl implements StringParser {
             throw new MyArrayException("Input string cannot be empty");
         }
 
-        MyArrayValidator validator = new MyArrayValidator();
+        MyArrayValidatorImpl validator = new MyArrayValidatorImpl();
 
         if (!validator.validateString(string)) {
             throw new MyArrayException("Invalid string cannot be converted to array!");

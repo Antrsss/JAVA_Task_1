@@ -86,7 +86,7 @@ public class MyArraySortImpl implements MyArraySort {
         }
     }
 
-    private void mergeSort(String[] array, int left, int right) throws MyArrayException {
+    private void mergeSort(String[] array, int left, int right){
         if (left < right) {
             int mid = left + (right - left) / 2;
             logger.trace("Merge sort recursion: left={}, mid={}, right={}", left, mid, right);
@@ -104,7 +104,9 @@ public class MyArraySortImpl implements MyArraySort {
         System.arraycopy(array, left, leftArray, 0, leftArray.length);
         System.arraycopy(array, mid + 1, rightArray, 0, rightArray.length);
 
-        int i = 0, j = 0, k = left;
+        int i = 0;
+        int j = 0;
+        int k = left;
         int mergeCount = 0;
 
         while (i < leftArray.length && j < rightArray.length) {
