@@ -151,20 +151,6 @@ public class Main {
         String[] quickArray = quickSorted.getMyArray();
         boolean isQuickSorted = isSorted(quickArray);
         logger.info("Quick sort verified: {}", isQuickSorted);
-
-        logger.info("--- Quick Sort (First Pivot) ---");
-        MyArray quickFirstSorted = sorter.quickSortWithFirstPivot(myArray);
-        logger.info("Quick sort (first pivot) result: {}", quickFirstSorted);
-
-        String[] quickFirstArray = quickFirstSorted.getMyArray();
-        boolean isQuickFirstSorted = isSorted(quickFirstArray);
-        logger.info("Quick sort (first pivot) verified: {}", isQuickFirstSorted);
-
-        logger.info("--- Sorting Comparison ---");
-        boolean allEqual = selectionSorted.equals(mergeSorted) &&
-                mergeSorted.equals(quickSorted) &&
-                quickSorted.equals(quickFirstSorted);
-        logger.info("All sorting algorithms produce same result: {}", allEqual);
     }
 
     private static boolean isSorted(String[] array) {

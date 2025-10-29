@@ -216,21 +216,6 @@ class MyArraySortImplTest {
         assertArrayEquals(expected, result.getMyArray());
     }
 
-    // Quick Sort with First Pivot Tests
-    @Test
-    @DisplayName("Quick sort with first pivot with null array throws exception")
-    void testQuickSortWithFirstPivotWithNullArray() {
-        assertThrows(MyArrayException.class, () -> sorter.quickSortWithFirstPivot(null));
-    }
-
-    @Test
-    @DisplayName("Quick sort with first pivot with random array")
-    void testQuickSortWithFirstPivotWithRandomArray() throws MyArrayException {
-        MyArray result = sorter.quickSortWithFirstPivot(randomArray);
-
-        assertArrayEquals(sortedArray.getMyArray(), result.getMyArray());
-    }
-
     // Comparative Tests
     @Test
     @DisplayName("All sort algorithms produce same result")
@@ -238,11 +223,10 @@ class MyArraySortImplTest {
         MyArray selectionResult = sorter.selectionSort(randomArray);
         MyArray mergeResult = sorter.mergeSort(randomArray);
         MyArray quickResult = sorter.quickSort(randomArray);
-        MyArray quickFirstPivotResult = sorter.quickSortWithFirstPivot(randomArray);
 
         assertArrayEquals(selectionResult.getMyArray(), mergeResult.getMyArray());
         assertArrayEquals(mergeResult.getMyArray(), quickResult.getMyArray());
-        assertArrayEquals(quickResult.getMyArray(), quickFirstPivotResult.getMyArray());
+        assertArrayEquals(quickResult.getMyArray(), selectionResult.getMyArray());
     }
 
     @Test

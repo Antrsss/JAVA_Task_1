@@ -1,4 +1,4 @@
-package test.by.java.course.service.operation;
+package test.by.java.course.service.stream;
 
 import main.by.java.course.entity.MyArray;
 import main.by.java.course.exception.MyArrayException;
