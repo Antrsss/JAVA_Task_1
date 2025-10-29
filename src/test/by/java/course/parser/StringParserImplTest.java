@@ -24,7 +24,7 @@ class StringParserImplTest {
     @DisplayName("Parse null string throws MyArrayException")
     void testParseNullStringThrowsException() {
         MyArrayException exception = assertThrows(MyArrayException.class,
-                () -> parser.parseString(null));
+                () -> parser.parseLine(null));
         assertEquals("Input string cannot be null", exception.getMessage());
     }
 
@@ -32,14 +32,14 @@ class StringParserImplTest {
     @NullAndEmptySource
     @DisplayName("Parse null and empty strings throws MyArrayException")
     void testParseNullOrEmptyStringsThrowsException(String input) {
-        assertThrows(MyArrayException.class, () -> parser.parseString(input));
+        assertThrows(MyArrayException.class, () -> parser.parseLine(input));
     }
 
     @Test
     @DisplayName("Parse blank string throws MyArrayException")
     void testParseBlankStringThrowsException() {
         MyArrayException exception = assertThrows(MyArrayException.class,
-                () -> parser.parseString("   "));
+                () -> parser.parseLine("   "));
         assertEquals("Input string cannot be empty", exception.getMessage());
     }
 
@@ -51,7 +51,7 @@ class StringParserImplTest {
     @DisplayName("Parse invalid strings throws MyArrayException")
     void testParseInvalidStringsThrowsException(String invalidString) {
         MyArrayException exception = assertThrows(MyArrayException.class,
-                () -> parser.parseString(invalidString));
+                () -> parser.parseLine(invalidString));
         assertEquals("Invalid string cannot be converted to array!", exception.getMessage());
     }
 
@@ -59,7 +59,7 @@ class StringParserImplTest {
     @Test
     @DisplayName("Parse single element string returns array with one element")
     void testParseSingleElementString() throws MyArrayException {
-        String[] result = parser.parseString("Apple");
+        String[] result = parser.parseLine("Apple");
 
         assertNotNull(result);
         assertEquals(1, result.length);
@@ -69,7 +69,7 @@ class StringParserImplTest {
     @Test
     @DisplayName("Parse multiple elements string returns correct array")
     void testParseMultipleElementsString() throws MyArrayException {
-        String[] result = parser.parseString("Apple Banana Cherry");
+        String[] result = parser.parseLine("Apple Banana Cherry");
 
         assertNotNull(result);
         assertEquals(3, result.length);
@@ -78,8 +78,8 @@ class StringParserImplTest {
 
     @Test
     @DisplayName("Parse string with multiple elements and no spaces")
-    void testParseStringWithMultipleElementsNoSpaces() throws MyArrayException {
-        String[] result = parser.parseString("ABCDE");
+    void testParseLineWithMultipleElementsNoSpaces() throws MyArrayException {
+        String[] result = parser.parseLine("ABCDE");
 
         assertNotNull(result);
         assertEquals(1, result.length);
@@ -88,8 +88,8 @@ class StringParserImplTest {
 
     @Test
     @DisplayName("Parse string with consecutive delimiters")
-    void testParseStringWithConsecutiveDelimiters() throws MyArrayException {
-        String[] result = parser.parseString("Apple  Banana   Cherry");
+    void testParseLineWithConsecutiveDelimiters() throws MyArrayException {
+        String[] result = parser.parseLine("Apple  Banana   Cherry");
 
         assertNotNull(result);
         assertTrue(result.length == 3);
@@ -100,8 +100,8 @@ class StringParserImplTest {
 
     @Test
     @DisplayName("Parse string with uppercase elements")
-    void testParseStringWithUppercaseElements() throws MyArrayException {
-        String[] result = parser.parseString("APPLE BANANA CHERRY");
+    void testParseLineWithUppercaseElements() throws MyArrayException {
+        String[] result = parser.parseLine("APPLE BANANA CHERRY");
 
         assertNotNull(result);
         assertEquals(3, result.length);
@@ -110,8 +110,8 @@ class StringParserImplTest {
 
     @Test
     @DisplayName("Parse string with lowercase elements")
-    void testParseStringWithLowercaseElements() throws MyArrayException {
-        String[] result = parser.parseString("apple banana cherry");
+    void testParseLineWithLowercaseElements() throws MyArrayException {
+        String[] result = parser.parseLine("apple banana cherry");
 
         assertNotNull(result);
         assertEquals(3, result.length);
@@ -120,8 +120,8 @@ class StringParserImplTest {
 
     @Test
     @DisplayName("Parse string with mixed case elements")
-    void testParseStringWithMixedCaseElements() throws MyArrayException {
-        String[] result = parser.parseString("Apple banana CHERRY");
+    void testParseLineWithMixedCaseElements() throws MyArrayException {
+        String[] result = parser.parseLine("Apple banana CHERRY");
 
         assertNotNull(result);
         assertEquals(3, result.length);
@@ -130,9 +130,9 @@ class StringParserImplTest {
 
     @Test
     @DisplayName("Parse string creates new array instance")
-    void testParseStringCreatesNewArrayInstance() throws MyArrayException {
-        String[] result1 = parser.parseString("Apple Banana");
-        String[] result2 = parser.parseString("Apple Banana");
+    void testParseLineCreatesNewArrayInstance() throws MyArrayException {
+        String[] result1 = parser.parseLine("Apple Banana");
+        String[] result2 = parser.parseLine("Apple Banana");
 
         assertNotSame(result1, result2, "Each call should return new array instance");
         assertArrayEquals(result1, result2, "Arrays should have same content");
