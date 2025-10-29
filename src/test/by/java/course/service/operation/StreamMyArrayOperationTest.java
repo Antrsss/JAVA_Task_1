@@ -1,8 +1,8 @@
-package test.by.java.course.service.stream;
+package test.by.java.course.service.operation;
 
 import main.by.java.course.entity.MyArray;
 import main.by.java.course.exception.MyArrayException;
-import main.by.java.course.service.stream.StreamMyArrayOperationImpl;
+import main.by.java.course.service.operation.impl.StreamMyArrayOperationImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

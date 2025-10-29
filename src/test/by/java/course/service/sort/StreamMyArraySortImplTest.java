@@ -1,8 +1,8 @@
-package test.by.java.course.service.stream;
+package test.by.java.course.service.sort;
 
 import main.by.java.course.entity.MyArray;
 import main.by.java.course.exception.MyArrayException;
-import main.by.java.course.service.stream.StreamMyArraySortImpl;
+import main.by.java.course.service.sort.impl.StreamMyArraySortImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

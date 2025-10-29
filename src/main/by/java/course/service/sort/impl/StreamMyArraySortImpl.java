@@ -1,4 +1,4 @@
-package main.by.java.course.service.stream;
+package main.by.java.course.service.sort.impl;
 
 import main.by.java.course.entity.MyArray;
 import main.by.java.course.exception.MyArrayException;
