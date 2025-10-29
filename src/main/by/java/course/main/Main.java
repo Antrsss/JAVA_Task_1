@@ -48,7 +48,7 @@ public class Main {
         MyStringReaderImpl reader = new MyStringReaderImpl();
 
         logger.info("Reading file from: {}", FILE_PATH);
-        String content = reader.readString(FILE_PATH);
+        String content = reader.readStringFromFile(FILE_PATH);
 
         if (content != null && !content.isBlank()) {
             logger.info("Successfully read file content: '{}'", content);

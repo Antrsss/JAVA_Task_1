@@ -189,9 +189,9 @@ public class MyArrayOperationImpl implements MyArrayOperation {
 
         for (int i = 0; i < str.length(); i++) {
             c = str.charAt(i);
-            if (c > 'A' && c < 'Z') {
+            if (c >= 'A' && c <= 'Z') {
                 value += c;
-            } else if (c > 'a' && c < 'z') {
+            } else if (c >= 'a' && c <= 'z') {
                 value -= c;
             }
         }
