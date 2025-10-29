@@ -20,7 +20,7 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
         }
 
         Optional<String> minValue = Arrays.stream(myArray.getMyArray())
-                .min(String::compareTo);
+                .min((s1, s2) -> Integer.compare(calculateStringValue(s1), calculateStringValue(s2)));
 
         return minValue.orElseThrow(() -> new MyArrayException("No min value found"));
     }
@@ -36,7 +36,7 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
         }
 
         Optional<String> maxValue = Arrays.stream(myArray.getMyArray())
-                .max(String::compareTo);
+                .max((s1, s2) -> Integer.compare(calculateStringValue(s1), calculateStringValue(s2)));
 
         return maxValue.orElseThrow(() -> new MyArrayException("No max value found"));
     }
