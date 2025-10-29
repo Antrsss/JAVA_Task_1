@@ -1,0 +1,140 @@
+package test.by.java.course.parser;
+
+import main.by.java.course.exception.MyArrayException;
+import main.by.java.course.parser.impl.StringParserImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class StringParserImplTest {
+
+    private StringParserImpl parser;
+
+    @BeforeEach
+    void setUp() {
+        parser = new StringParserImpl();
+    }
+
+    @Test
+    @DisplayName("Parse null string throws MyArrayException")
+    void testParseNullStringThrowsException() {
+        MyArrayException exception = assertThrows(MyArrayException.class,
+                () -> parser.parseString(null));
+        assertEquals("Input string cannot be null", exception.getMessage());
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @DisplayName("Parse null and empty strings throws MyArrayException")
+    void testParseNullOrEmptyStringsThrowsException(String input) {
+        assertThrows(MyArrayException.class, () -> parser.parseString(input));
+    }
+
+    @Test
+    @DisplayName("Parse blank string throws MyArrayException")
+    void testParseBlankStringThrowsException() {
+        MyArrayException exception = assertThrows(MyArrayException.class,
+                () -> parser.parseString("   "));
+        assertEquals("Input string cannot be empty", exception.getMessage());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "123", "Test123", "special@chars",
+            "string,with,commas"
+    })
+    @DisplayName("Parse invalid strings throws MyArrayException")
+    void testParseInvalidStringsThrowsException(String invalidString) {
+        MyArrayException exception = assertThrows(MyArrayException.class,
+                () -> parser.parseString(invalidString));
+        assertEquals("Invalid string cannot be converted to array!", exception.getMessage());
+    }
+
+    // Тесты на успешный парсинг (предполагая, что ELEMENT_DIVIDER_REGEX = ",")
+    @Test
+    @DisplayName("Parse single element string returns array with one element")
+    void testParseSingleElementString() throws MyArrayException {
+        String[] result = parser.parseString("Apple");
+
+        assertNotNull(result);
+        assertEquals(1, result.length);
+        assertEquals("Apple", result[0]);
+    }
+
+    @Test
+    @DisplayName("Parse multiple elements string returns correct array")
+    void testParseMultipleElementsString() throws MyArrayException {
+        String[] result = parser.parseString("Apple Banana Cherry");
+
+        assertNotNull(result);
+        assertEquals(3, result.length);
+        assertArrayEquals(new String[]{"Apple", "Banana", "Cherry"}, result);
+    }
+
+    @Test
+    @DisplayName("Parse string with multiple elements and no spaces")
+    void testParseStringWithMultipleElementsNoSpaces() throws MyArrayException {
+        String[] result = parser.parseString("ABCDE");
+
+        assertNotNull(result);
+        assertEquals(1, result.length);
+        assertArrayEquals(new String[]{"ABCDE"}, result);
+    }
+
+    @Test
+    @DisplayName("Parse string with consecutive delimiters")
+    void testParseStringWithConsecutiveDelimiters() throws MyArrayException {
+        String[] result = parser.parseString("Apple  Banana   Cherry");
+
+        assertNotNull(result);
+        assertTrue(result.length == 3);
+        assertEquals("Apple", result[0]);
+        assertEquals("Banana", result[1]);
+        assertEquals("Cherry", result[2]);
+    }
+
+    @Test
+    @DisplayName("Parse string with uppercase elements")
+    void testParseStringWithUppercaseElements() throws MyArrayException {
+        String[] result = parser.parseString("APPLE BANANA CHERRY");
+
+        assertNotNull(result);
+        assertEquals(3, result.length);
+        assertArrayEquals(new String[]{"APPLE", "BANANA", "CHERRY"}, result);
+    }
+
+    @Test
+    @DisplayName("Parse string with lowercase elements")
+    void testParseStringWithLowercaseElements() throws MyArrayException {
+        String[] result = parser.parseString("apple banana cherry");
+
+        assertNotNull(result);
+        assertEquals(3, result.length);
+        assertArrayEquals(new String[]{"apple", "banana", "cherry"}, result);
+    }
+
+    @Test
+    @DisplayName("Parse string with mixed case elements")
+    void testParseStringWithMixedCaseElements() throws MyArrayException {
+        String[] result = parser.parseString("Apple banana CHERRY");
+
+        assertNotNull(result);
+        assertEquals(3, result.length);
+        assertArrayEquals(new String[]{"Apple", "banana", "CHERRY"}, result);
+    }
+
+    @Test
+    @DisplayName("Parse string creates new array instance")
+    void testParseStringCreatesNewArrayInstance() throws MyArrayException {
+        String[] result1 = parser.parseString("Apple Banana");
+        String[] result2 = parser.parseString("Apple Banana");
+
+        assertNotSame(result1, result2, "Each call should return new array instance");
+        assertArrayEquals(result1, result2, "Arrays should have same content");
+    }
+}
