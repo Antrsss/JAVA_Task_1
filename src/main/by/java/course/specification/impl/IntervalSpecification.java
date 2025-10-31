@@ -17,8 +17,8 @@ public record IntervalSpecification(int minValue, int maxValue) implements MyArr
         logger.debug("Checking {} elements of MyArray id {} for range [{}, {}]",
                 array.length, myArray.getId(), minValue, maxValue);
 
-        for (var string : array) {
-            currentValue = calculateArrayElement(string);
+        for (int i = 0; i < array.length; i++) {
+            currentValue = myArray.calculateArrayElementAtIndexOf(i);
 
             if (currentValue < minValue || currentValue > maxValue) {
                 logger.debug("Element '{}' is above maximum {} or under minimum {} in MyArray id {}",
@@ -27,21 +27,5 @@ public record IntervalSpecification(int minValue, int maxValue) implements MyArr
             }
         }
         return true;
-    }
-
-    private int calculateArrayElement(String str) {
-        int value = 0;
-        char c;
-
-        for (int i = 0; i < str.length(); i++) {
-            c = str.charAt(i);
-            if (c >= 'A' && c <= 'Z') {
-                value += c;
-            } else if (c >= 'a' && c <= 'z') {
-                value -= c;
-            }
-        }
-
-        return value;
     }
 }

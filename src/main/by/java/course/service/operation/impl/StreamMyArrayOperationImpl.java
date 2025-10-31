@@ -3,7 +3,7 @@ package main.by.java.course.service.operation.impl;
 import main.by.java.course.entity.MyArray;
 import main.by.java.course.exception.MyArrayException;
 import main.by.java.course.service.operation.MyArrayOperation;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -19,8 +19,10 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
             throw new MyArrayException("Cannot find min value in empty array");
         }
 
-        Optional<String> minValue = Arrays.stream(myArray.getMyArray())
-                .min((s1, s2) -> Integer.compare(calculateStringValue(s1), calculateStringValue(s2)));
+        Optional<String> minValue = IntStream.range(0, myArray.getMyArray().length)
+                .boxed()
+                .min(Comparator.comparingInt(myArray::calculateArrayElementAtIndexOf))
+                .map(i -> myArray.getMyArray()[i]);
 
         return minValue.orElseThrow(() -> new MyArrayException("No min value found"));
     }
@@ -35,8 +37,10 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
             throw new MyArrayException("Cannot find max value in empty array");
         }
 
-        Optional<String> maxValue = Arrays.stream(myArray.getMyArray())
-                .max((s1, s2) -> Integer.compare(calculateStringValue(s1), calculateStringValue(s2)));
+        Optional<String> maxValue = IntStream.range(0, myArray.getMyArray().length)
+                .boxed()
+                .max(Comparator.comparingInt(myArray::calculateArrayElementAtIndexOf))
+                .map(i -> myArray.getMyArray()[i]);
 
         return maxValue.orElseThrow(() -> new MyArrayException("No max value found"));
     }
@@ -76,8 +80,8 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
             throw new MyArrayException("Cannot calculate average for empty array");
         }
 
-        return Arrays.stream(myArray.getMyArray())
-                .mapToInt(this::calculateStringValue)
+        return IntStream.range(0, myArray.getMyArray().length)
+                .mapToDouble(myArray::calculateArrayElementAtIndexOf)
                 .average()
                 .orElseThrow(() -> new MyArrayException("Cannot calculate average"));
     }
@@ -92,8 +96,8 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
             return 0;
         }
 
-        return Arrays.stream(myArray.getMyArray())
-                .mapToInt(this::calculateStringValue)
+        return IntStream.range(0, myArray.getMyArray().length)
+                .map(myArray::calculateArrayElementAtIndexOf)
                 .sum();
     }
 
@@ -107,8 +111,8 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
             return 0;
         }
 
-        return (int) Arrays.stream(myArray.getMyArray())
-                .mapToInt(this::calculateStringValue)
+        return (int) IntStream.range(0, myArray.getMyArray().length)
+                .map(myArray::calculateArrayElementAtIndexOf)
                 .filter(value -> value > 0)
                 .count();
     }
@@ -123,23 +127,9 @@ public class StreamMyArrayOperationImpl implements MyArrayOperation {
             return 0;
         }
 
-        return (int) Arrays.stream(myArray.getMyArray())
-                .mapToInt(this::calculateStringValue)
+        return (int) IntStream.range(0, myArray.getMyArray().length)
+                .map(myArray::calculateArrayElementAtIndexOf)
                 .filter(value -> value < 0)
                 .count();
-    }
-
-    private int calculateStringValue(String str) {
-
-        return str.chars()
-                .map(c -> {
-                    if (c >= 'A' && c <= 'Z') {
-                        return c;
-                    } else if (c >= 'a' && c <= 'z') {
-                        return -c;
-                    }
-                    return 0;
-                })
-                .sum();
     }
 }

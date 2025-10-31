@@ -17,12 +17,12 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         }
 
         String[] arr = myArray.getMyArray();
-        int minValue = calculateArrayElement(arr[0]);
+        int minValue = myArray.calculateArrayElementAtIndexOf(0);
         int minIndex = 0;
         int currentValue;
 
         for (int i = 1; i < arr.length; i++) {
-            currentValue = calculateArrayElement(arr[i]);
+            currentValue = myArray.calculateArrayElementAtIndexOf(i);
 
             if (currentValue < minValue) {
                 minValue = currentValue;
@@ -44,12 +44,12 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         }
 
         String[] arr = myArray.getMyArray();
-        int maxValue = calculateArrayElement(arr[0]);
+        int maxValue = myArray.calculateArrayElementAtIndexOf(0);
         int maxIndex = 0;
         int currentValue;
 
         for (int i = 1; i < arr.length; i++) {
-            currentValue = calculateArrayElement(arr[i]);
+            currentValue = myArray.calculateArrayElementAtIndexOf(i);
 
             if (currentValue > maxValue) {
                 maxValue = currentValue;
@@ -104,8 +104,8 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int currentSum = 0;
 
-        for (String string : arr) {
-            currentSum += calculateArrayElement(string);
+        for (int i = 0; i < arr.length; i++) {
+            currentSum += myArray.calculateArrayElementAtIndexOf(i);
         }
 
         return (double) currentSum / arr.length;
@@ -124,8 +124,8 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int currentSum = 0;
 
-        for (String string : arr) {
-            currentSum += calculateArrayElement(string);
+        for (int i = 0; i < arr.length; i++) {
+            currentSum += myArray.calculateArrayElementAtIndexOf(i);
         }
 
         return currentSum;
@@ -144,8 +144,8 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int positiveCount = 0;
 
-        for (String string : arr) {
-            if (calculateArrayElement(string) > 0) {
+        for (int i = 0; i < arr.length; i++) {
+            if (myArray.calculateArrayElementAtIndexOf(i) > 0) {
                 positiveCount += 1;
             }
         }
@@ -166,36 +166,12 @@ public class MyArrayOperationImpl implements MyArrayOperation {
         String[] arr = myArray.getMyArray();
         int negativeCount = 0;
 
-        for (String string : arr) {
-            if (calculateArrayElement(string) < 0) {
+        for (int i = 0; i < arr.length; i++) {
+            if (myArray.calculateArrayElementAtIndexOf(i) < 0) {
                 negativeCount += 1;
             }
         }
 
         return negativeCount;
-    }
-
-    private int calculateArrayElement(String str) throws MyArrayException {
-        if (str == null) {
-            throw new MyArrayException("String element cannot be null");
-        }
-
-        if (str.isEmpty()) {
-            throw new MyArrayException("String element cannot be empty");
-        }
-
-        int value = 0;
-        char c;
-
-        for (int i = 0; i < str.length(); i++) {
-            c = str.charAt(i);
-            if (c >= 'A' && c <= 'Z') {
-                value += c;
-            } else if (c >= 'a' && c <= 'z') {
-                value -= c;
-            }
-        }
-
-        return value;
     }
 }

@@ -81,6 +81,23 @@ public class MyArray implements MyArrayObservable {
         return array.length == 0;
     }
 
+    public int calculateArrayElementAtIndexOf(int index) {
+        String str = this.array[index];
+        int value = 0;
+        char c;
+
+        for (int i = 0; i < str.length(); i++) {
+            c = str.charAt(i);
+            if (c >= 'A' && c <= 'Z') {
+                value += c;
+            } else if (c >= 'a' && c <= 'z') {
+                value -= c;
+            }
+        }
+
+        return value;
+    }
+
     @Override
     public String toString() {
         return String.format("MyArray { array = %s, id = %d }", Arrays.toString(array), id);
