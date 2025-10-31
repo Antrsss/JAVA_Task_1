@@ -1,22 +1,26 @@
 package main.by.java.course.entity;
 
+import main.by.java.course.observer.MyArrayObservable;
+import main.by.java.course.observer.MyArrayObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
-public class MyArray {
+public class MyArray implements MyArrayObservable {
     private static final Logger logger = LogManager.getLogger();
 
-    private final String[] array;
+    private String[] array;
 
-    private long id;
+    private int id;
 
-    private long nextId() {
+    private MyArrayObserver observer;
+
+    private int nextId() {
         return (this.id + 1);
     }
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
@@ -31,6 +35,11 @@ public class MyArray {
 
     public String[] getMyArray() {
         return Arrays.copyOf(array, array.length);
+    }
+
+    public void setMyArray(String[] array) {
+        this.array = Arrays.copyOf(array, array.length);
+        notifyObservers();
     }
 
     public boolean isEmpty() {
@@ -84,6 +93,23 @@ public class MyArray {
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    @Override
+    public void attach(MyArrayObserver observer) {
+
+    }
+
+    @Override
+    public void detach(MyArrayObserver observer) {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+        if (observer != null) {
+            observer.handleEvent(this);
+        }
     }
 
     public static class Builder {
