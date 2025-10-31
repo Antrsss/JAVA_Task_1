@@ -6,6 +6,6 @@ import main.by.java.course.observer.MyArrayObserver;
 public class MyArrayObserverImpl implements MyArrayObserver {
     @Override
     public void handleEvent(MyArray myArray) {
-
+        
     }
 }
