@@ -32,7 +32,7 @@ public class MyArray implements MyArrayObservable {
         }
     }
 
-    private int id;
+    private int id = 1;
     private String[] array;
     private MyArrayObserver observer;
 
@@ -42,6 +42,8 @@ public class MyArray implements MyArrayObservable {
         } else {
             this.array = Arrays.copyOf(array, array.length);
         }
+        id = nextId();
+
         logger.debug("MyArray created with size: {}", this.array.length);
     }
 
