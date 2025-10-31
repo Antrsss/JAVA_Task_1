@@ -22,9 +22,9 @@ public class MyArrayRepositoryImpl implements MyArrayRepository {
 
     @Override
     public List<MyArray> sort(Comparator<? super MyArray> c) {
-        var myArraysClone = new ArrayList<>(myArrays);
-        myArraysClone.sort(c);
-        return myArraysClone;
+        var myArraysCopy = new ArrayList<>(myArrays);
+        myArraysCopy.sort(c);
+        return myArraysCopy;
     }
 
     @Override
