@@ -12,6 +12,7 @@ public enum MyArrayComparator implements Comparator<MyArray> {
     ID {
         @Override
         public int compare(MyArray o1, MyArray o2) {
+            logger.debug("ID comparison result: (id1={} vs id2={})", o1.getId(), o2.getId());
             return o1.getId() - o2.getId();
         }
     },
@@ -27,6 +28,9 @@ public enum MyArrayComparator implements Comparator<MyArray> {
             } catch (MyArrayException e) {
                 logger.warn("MyArrayComparator: Can't find min sum of MyArrays");
             }
+
+            logger.debug("MIN_SUM comparison result: (sum1={} vs sum2={})", minValue1, minValue2);
+
             return Math.min(minValue1, minValue2);
         }
     },
@@ -35,6 +39,8 @@ public enum MyArrayComparator implements Comparator<MyArray> {
         public int compare(MyArray o1, MyArray o2) {
             int length1 = o1.getMyArray().length;
             int length2 = o2.getMyArray().length;
+
+            logger.debug("MAX_SIZE comparison result: (length1={} vs length2={})", length1, length2);
             return Math.max(length1, length2);
         }
     };

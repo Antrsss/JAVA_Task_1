@@ -17,12 +17,13 @@ public class MyArrayObserverImpl implements MyArrayObserver {
     public MyArrayObserverImpl() {
         this.warehouse = MyArrayWarehouse.getInstance();
         this.arrayOperations = new MyArrayOperationImpl();
+        logger.debug("MyArrayObserverImpl initialized");
     }
 
     @Override
     public void handleEvent(MyArray myArray) {
         if (myArray == null) {
-            logger.warn("Cannot handle event for null MyArray");
+            logger.error("Cannot handle event for null MyArray");
             return;
         }
 
@@ -33,7 +34,7 @@ public class MyArrayObserverImpl implements MyArrayObserver {
             logger.debug("Updated parameters for MyArray id {} in warehouse", myArray.getId());
 
         } catch (MyArrayException e) {
-            logger.error("Error calculating parameters for MyArray id {}: {}",
+            logger.error("Error for MyArray id {}: {}",
                     myArray.getId(), e.getMessage());
         } catch (Exception e) {
             logger.error("Unexpected error handling event for MyArray id {}: {}",
@@ -43,6 +44,8 @@ public class MyArrayObserverImpl implements MyArrayObserver {
 
     private MyArrayParameters calculateParametersUsingOperations(MyArray myArray)
             throws MyArrayException {
+
+        logger.debug("Calculating parameters for MyArray id: {}", myArray.getId());
 
         String minValue = arrayOperations.findMinValue(myArray);
         String maxValue = arrayOperations.findMaxValue(myArray);
