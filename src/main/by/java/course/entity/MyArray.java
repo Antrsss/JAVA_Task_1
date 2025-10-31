@@ -10,6 +10,16 @@ public class MyArray {
 
     private final String[] array;
 
+    private long id;
+
+    private long nextId() {
+        return (this.id + 1);
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
     private MyArray(String[] array) {
         if (array == null) {
             this.array = new String[0];
