@@ -60,7 +60,20 @@ public class MyArray implements MyArrayObservable {
     }
 
     public void setMyArray(String[] array) {
+        for (var string : array) {
+            if (string == null || string.isBlank()) {
+                return;
+            }
+        }
+
         this.array = Arrays.copyOf(array, array.length);
+        notifyObservers();
+    }
+
+    public void setValueAtIndexOf(String string, int index) {
+        if (index >= 0 && string != null && !string.isBlank()) {
+            this.array[index] = string;
+        }
         notifyObservers();
     }
 
