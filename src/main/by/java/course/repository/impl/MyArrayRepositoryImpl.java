@@ -8,7 +8,7 @@ import java.util.*;
 
 public class MyArrayRepositoryImpl implements MyArrayRepository {
 
-    private List<MyArray> myArrays = new ArrayList<>();
+    private final List<MyArray> myArrays = new ArrayList<>();
 
     @Override
     public boolean addMyArray(MyArray myArray) {
@@ -21,12 +21,14 @@ public class MyArrayRepositoryImpl implements MyArrayRepository {
     }
 
     @Override
-    public void sort(Comparator<? super MyArray> c) {
-        myArrays.sort(c);
+    public List<MyArray> sort(Comparator<? super MyArray> c) {
+        var myArraysClone = new ArrayList<>(myArrays);
+        myArraysClone.sort(c);
+        return myArraysClone;
     }
 
     @Override
     public List<MyArray> query(MyArraySpecification specification) {
-        return List.of();
+        return myArrays.stream().filter(specification::specify).toList();
     }
 }

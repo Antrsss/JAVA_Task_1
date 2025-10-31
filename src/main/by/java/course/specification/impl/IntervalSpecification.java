@@ -1,13 +1,12 @@
 package main.by.java.course.specification.impl;
 
 import main.by.java.course.entity.MyArray;
-import main.by.java.course.exception.MyArrayException;
 import main.by.java.course.specification.MyArraySpecification;
 
 public record IntervalSpecification(int minValue, int maxValue) implements MyArraySpecification {
 
     @Override
-    public boolean specify(MyArray myArray) throws MyArrayException {
+    public boolean specify(MyArray myArray) {
         String[] array = myArray.getMyArray();
         int currentValue;
 
@@ -21,15 +20,7 @@ public record IntervalSpecification(int minValue, int maxValue) implements MyArr
         return true;
     }
 
-    private int calculateArrayElement(String str) throws MyArrayException {
-        if (str == null) {
-            throw new MyArrayException("String element cannot be null");
-        }
-
-        if (str.isEmpty()) {
-            throw new MyArrayException("String element cannot be empty");
-        }
-
+    private int calculateArrayElement(String str) {
         int value = 0;
         char c;
 

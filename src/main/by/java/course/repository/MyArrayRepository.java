@@ -9,7 +9,7 @@ import java.util.List;
 public interface MyArrayRepository {
     boolean addMyArray(MyArray myArray);
     boolean removeMyArray(MyArray myArray);
-    void sort(Comparator<? super MyArray> c);
+    List<MyArray> sort(Comparator<? super MyArray> c);
 
     List<MyArray> query(MyArraySpecification specification);
 }
