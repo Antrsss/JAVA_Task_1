@@ -60,6 +60,11 @@ public class MyArray implements MyArrayObservable {
     }
 
     public void setMyArray(String[] array) {
+        if (array == null) {
+            this.array = new String[0];
+            return;
+        }
+
         for (var string : array) {
             if (string == null || string.isBlank()) {
                 return;
@@ -71,7 +76,7 @@ public class MyArray implements MyArrayObservable {
     }
 
     public void setValueAtIndexOf(String string, int index) {
-        if (index >= 0 && string != null && !string.isBlank()) {
+        if (index >= 0 && string != null && index < string.length() && !string.isBlank()) {
             this.array[index] = string;
         }
         notifyObservers();
