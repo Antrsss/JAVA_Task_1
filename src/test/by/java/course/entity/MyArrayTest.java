@@ -199,7 +199,7 @@ class MyArrayTest {
                 .build();
 
         int result = array.calculateArrayElementAtIndexOf(0);
-        int expected = -'a' - 'b' - 'c'; // -97 -98 -99 = -294
+        int expected = -'a' - 'b' - 'c';
         assertEquals(expected, result);
     }
 
@@ -394,18 +394,16 @@ class MyArrayTest {
                 .build();
 
         int result = array.calculateArrayElementAtIndexOf(0);
-        assertEquals(0, result); // Only letters contribute to calculation
+        assertEquals(0, result);
     }
 
-    // Параметризованные тесты
     @ParameterizedTest
     @NullAndEmptySource
-    @DisplayName("SetMyArray with various invalid inputs")
+    @DisplayName("SetMyArray with various invalid inputs returns empty array")
     void testSetMyArrayWithVariousInvalidInputs(String[] invalidArray) {
-        String[] original = myArray.getMyArray().clone();
         myArray.setMyArray(invalidArray);
 
-        assertArrayEquals(original, myArray.getMyArray());
+        assertArrayEquals(new String[0], myArray.getMyArray());
     }
 
     @ParameterizedTest
