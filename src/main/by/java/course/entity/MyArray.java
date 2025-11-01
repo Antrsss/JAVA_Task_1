@@ -9,10 +9,12 @@ import java.util.Arrays;
 
 public class MyArray implements MyArrayObservable {
     private static final Logger logger = LogManager.getLogger();
+    private static int idCounter = 1;
 
     public static Builder newBuilder() {
         return new Builder();
     }
+
     public static class Builder {
         private String[] array;
 
@@ -32,7 +34,7 @@ public class MyArray implements MyArrayObservable {
         }
     }
 
-    private int id = 1;
+    private int id;
     private String[] array;
     private MyArrayObserver observer;
 
@@ -43,6 +45,7 @@ public class MyArray implements MyArrayObservable {
             this.array = Arrays.copyOf(array, array.length);
         }
         id = nextId();
+        idCounter++;
 
         logger.debug("MyArray created with size: {}", this.array.length);
     }
@@ -51,8 +54,8 @@ public class MyArray implements MyArrayObservable {
         return this.id;
     }
 
-    private int nextId() {
-        return (this.id + 1);
+    private static int nextId() {
+        return (idCounter + 1);
     }
 
     public String[] getMyArray() {

@@ -1,0 +1,184 @@
+package test.by.java.course.comparator;
+
+import main.by.java.course.comparator.MyArrayComparator;
+import main.by.java.course.entity.MyArray;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MyArrayComparatorTest {
+
+    private MyArray array1;
+    private MyArray array2;
+    private MyArray array3;
+
+    @BeforeEach
+    void setUp() {
+        array1 = MyArray.newBuilder()
+                .setMyArray(new String[]{"ABC", "DEF"})
+                .build();
+
+        array2 = MyArray.newBuilder()
+                .setMyArray(new String[]{"abc", "def"})
+                .build();
+
+        array3 = MyArray.newBuilder()
+                .setMyArray(new String[]{"A", "B", "C", "D"})
+                .build();
+    }
+
+    @Test
+    @DisplayName("ID comparator - arrays with different IDs")
+    void testIdComparatorWithDifferentIds() {
+        int result = MyArrayComparator.ID.compare(array1, array2);
+
+        assertTrue(result != 0, "ID comparison should not return 0 for different arrays");
+    }
+
+    @Test
+    @DisplayName("ID comparator - same array")
+    void testIdComparatorWithSameArray() {
+        int result = MyArrayComparator.ID.compare(array1, array1);
+        assertEquals(0, result, "ID comparison should return 0 for same array");
+    }
+
+    @Test
+    @DisplayName("ID comparator - sorting by ID")
+    void testIdComparatorSorting() {
+        List<MyArray> arrays = new ArrayList<>();
+        arrays.add(array3);
+        arrays.add(array1);
+        arrays.add(array2);
+
+        Collections.sort(arrays, MyArrayComparator.ID);
+
+        for (int i = 0; i < arrays.size() - 1; i++) {
+            assertTrue(arrays.get(i).getId() <= arrays.get(i + 1).getId(),
+                    "Arrays should be sorted by ID in ascending order");
+        }
+    }
+
+    @Test
+    @DisplayName("MIN_SUM comparator - arrays with different sums")
+    void testMinSumComparatorWithDifferentSums() {
+        int result = MyArrayComparator.MIN_SUM.compare(array1, array2);
+
+        // array1: "ABC"=65+66+67=198, "DEF"=68+69+70=207, total=405 (positive)
+        // array2: "abc"=-97-98-99=-294, "def"=-100-101-102=-303, total=-597 (negative)
+        int expected = Math.min(405, -597);
+        assertEquals(expected, result, "MIN_SUM should return minimum of two sums");
+    }
+
+    @Test
+    @DisplayName("MIN_SUM comparator - arrays with same sum")
+    void testMinSumComparatorWithSameSum() {
+        MyArray sameArray1 = MyArray.newBuilder()
+                .setMyArray(new String[]{"A", "B"})
+                .build();
+        MyArray sameArray2 = MyArray.newBuilder()
+                .setMyArray(new String[]{"A", "B"})
+                .build();
+
+        int result = MyArrayComparator.MIN_SUM.compare(sameArray1, sameArray2);
+        int expectedSum = ('A' + 'B');
+        assertEquals(expectedSum, result, "MIN_SUM should return the sum when both are equal");
+    }
+
+    @Test
+    @DisplayName("MIN_SUM comparator - sorting by minimum sum")
+    void testMinSumComparatorSorting() {
+        List<MyArray> arrays = new ArrayList<>();
+        arrays.add(array1); // Sum ~405 (positive)
+        arrays.add(array2); // Sum ~-597 (negative)
+        arrays.add(array3); // Sum: A=65, B=66, C=67, D=68 = 266
+
+        Collections.sort(arrays, MyArrayComparator.MIN_SUM);
+
+        assertNotNull(arrays);
+        assertEquals(3, arrays.size());
+    }
+
+    @Test
+    @DisplayName("MAX_SIZE comparator - arrays with different sizes")
+    void testMaxSizeComparatorWithDifferentSizes() {
+        int result = MyArrayComparator.MAX_SIZE.compare(array1, array3);
+        int expected = Math.max(2, 4);
+
+        assertEquals(expected, result, "MAX_SIZE should return maximum of two sizes");
+    }
+
+    @Test
+    @DisplayName("MAX_SIZE comparator - arrays with same size")
+    void testMaxSizeComparatorWithSameSize() {
+        MyArray sameSizeArray = MyArray.newBuilder()
+                .setMyArray(new String[]{"X", "Y"})
+                .build();
+
+        int result = MyArrayComparator.MAX_SIZE.compare(array1, sameSizeArray);
+
+        assertEquals(2, result, "MAX_SIZE should return the size when both are equal");
+    }
+
+    @Test
+    @DisplayName("MAX_SIZE comparator - sorting by maximum size")
+    void testMaxSizeComparatorSorting() {
+        List<MyArray> arrays = new ArrayList<>();
+        arrays.add(array3);
+        arrays.add(array1);
+        arrays.add(array2);
+
+        Collections.sort(arrays, MyArrayComparator.MAX_SIZE);
+
+        assertNotNull(arrays);
+        assertEquals(3, arrays.size());
+    }
+
+    @Test
+    @DisplayName("MIN_SUM comparator - empty arrays")
+    void testMinSumComparatorWithEmptyArrays() {
+        MyArray emptyArray1 = MyArray.newBuilder()
+                .setMyArray(new String[0])
+                .build();
+        MyArray emptyArray2 = MyArray.newBuilder()
+                .setMyArray(new String[0])
+                .build();
+
+        int result = MyArrayComparator.MIN_SUM.compare(emptyArray1, emptyArray2);
+
+        assertEquals(0, result, "MIN_SUM should return 0 for empty arrays");
+    }
+
+    @Test
+    @DisplayName("MAX_SIZE comparator - empty arrays")
+    void testMaxSizeComparatorWithEmptyArrays() {
+        MyArray emptyArray1 = MyArray.newBuilder()
+                .setMyArray(new String[0])
+                .build();
+        MyArray emptyArray2 = MyArray.newBuilder()
+                .setMyArray(new String[0])
+                .build();
+
+        int result = MyArrayComparator.MAX_SIZE.compare(emptyArray1, emptyArray2);
+
+        assertEquals(0, result, "MAX_SIZE should return 0 for empty arrays");
+    }
+
+    @Test
+    @DisplayName("ID comparator - consistent with equals")
+    void testIdComparatorConsistentWithEquals() {
+        assertEquals(0, MyArrayComparator.ID.compare(array1, array1));
+
+        MyArray copyWithDifferentId = MyArray.newBuilder()
+                .setMyArray(array1.getMyArray())
+                .build();
+
+        int result = MyArrayComparator.ID.compare(array1, copyWithDifferentId);
+        assertNotEquals(0, result, "ID comparator should not return 0 for different IDs");
+    }
+}
