@@ -11,16 +11,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CustomArrayRepositoryImplTest {
+class CustomArrayRepositoryTest {
 
-    private CustomArrayRepositoryImpl repository;
+    private CustomArrayRepository repository;
     private CustomArray array1;
     private CustomArray array2;
     private CustomArray array3;
 
     @BeforeEach
     void setUp() {
-        repository = new CustomArrayRepositoryImpl();
+        repository = new CustomArrayRepository();
 
         array1 = CustomArray.newBuilder()
                 .setMyArray(new String[]{"Apple", "Banana"})

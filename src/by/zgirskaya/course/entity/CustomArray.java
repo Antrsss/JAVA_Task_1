@@ -2,25 +2,22 @@ package by.zgirskaya.course.entity;
 
 import by.zgirskaya.course.observer.CustomArrayObservable;
 import by.zgirskaya.course.observer.CustomArrayObserver;
+import by.zgirskaya.course.util.CustomArrayIdGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
 public class CustomArray implements CustomArrayObservable {
-    private static final Logger logger = LogManager.getLogger();
-    private static int idCounter = 1;
 
-    private int id;
+    private static final Logger logger = LogManager.getLogger();
+
+    private final int id;
     private String[] array;
     private CustomArrayObserver observer;
 
     public int getId() {
         return this.id;
-    }
-
-    private static int nextId() {
-        return ++idCounter;
     }
 
     public String[] getMyArray() {
@@ -50,10 +47,6 @@ public class CustomArray implements CustomArrayObservable {
         notifyObservers();
     }
 
-    public boolean isEmpty() {
-        return array.length == 0;
-    }
-
     public int calculateArrayElementAtIndexOf(int index) {
         String str = this.array[index];
         int value = 0;
@@ -69,6 +62,10 @@ public class CustomArray implements CustomArrayObservable {
         }
 
         return value;
+    }
+
+    public boolean isEmpty() {
+        return array.length == 0;
     }
 
     @Override
@@ -140,8 +137,7 @@ public class CustomArray implements CustomArrayObservable {
         } else {
             this.array = Arrays.copyOf(array, array.length);
         }
-        id = nextId();
-        idCounter++;
+        id = CustomArrayIdGenerator.nextId();
 
         logger.debug("MyArray created with size: {}", this.array.length);
     }

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-public class CustomArrayRepositoryImpl {
+public class CustomArrayRepository {
 
     private static final Logger logger = LogManager.getLogger();
 
