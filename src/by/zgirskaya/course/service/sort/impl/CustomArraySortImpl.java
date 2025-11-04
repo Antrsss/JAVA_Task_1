@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 public class CustomArraySortImpl implements CustomArraySort {
 
-    private static final Logger logger = LogManager.getLogger(CustomArraySortImpl.class);
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public CustomArray selectionSort(CustomArray customArray) throws CustomArrayException {
