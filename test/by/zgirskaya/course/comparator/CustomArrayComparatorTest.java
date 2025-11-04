@@ -1,6 +1,7 @@
 package by.zgirskaya.course.comparator;
 
 import by.zgirskaya.course.entity.CustomArray;
+import by.zgirskaya.course.exception.CustomArrayException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -101,6 +102,18 @@ class CustomArrayComparatorTest {
 
         assertNotNull(arrays);
         assertEquals(3, arrays.size());
+    }
+
+    @Test
+    @DisplayName("MIN_SUM comparator - null arrays variations")
+    void testMinSumComparatorWithNullArray() {
+        int result1 = CustomArrayComparator.MIN_SUM.compare(null, array1);
+        int result2 = CustomArrayComparator.MIN_SUM.compare(array1, null);
+        int result3 = CustomArrayComparator.MIN_SUM.compare(null, null);
+
+        assertEquals(-1, result1, "MIN_SUM should return -1");
+        assertEquals(1, result2, "MIN_SUM should return 1");
+        assertEquals(0, result3, "MIN_SUM should return 0");
     }
 
     @Test
