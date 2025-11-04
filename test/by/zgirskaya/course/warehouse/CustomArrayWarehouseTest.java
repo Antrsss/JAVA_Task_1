@@ -79,8 +79,8 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("GetMyArrayParametersMap returns copy of internal map")
-    void testGetCustomArrayParametersMapReturnsCopy() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(1, testParameters1);
+    void testGetCustomArrayParametersMapReturnsCopy() {
+        warehouse.put(1, testParameters1);
 
         Map<Integer, CustomArrayParameters> copy1 = warehouse.getCustomArrayParametersMap();
         Map<Integer, CustomArrayParameters> copy2 = warehouse.getCustomArrayParametersMap();
@@ -94,8 +94,8 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("GetMyArrayParametersMap returns immutable map")
-    void testGetCustomArrayParametersMapReturnsImmutableMap() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(1, testParameters1);
+    void testGetCustomArrayParametersMapReturnsImmutableMap() {
+        warehouse.put(1, testParameters1);
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
 
         assertThrows(UnsupportedOperationException.class,
@@ -108,8 +108,8 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("PutMyArrayParametersMap with valid parameters")
-    void testPutCustomArrayParametersMapWithValidParameters() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(1, testParameters1);
+    void testPutCustomArrayParametersMapWithValidParameters() {
+        warehouse.put(1, testParameters1);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(1, result.size());
@@ -118,9 +118,9 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("PutMyArrayParametersMap with multiple parameters")
-    void testPutCustomArrayParametersMapWithMultipleParameters() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(1, testParameters1);
-        warehouse.putCustomArrayParametersMap(2, testParameters2);
+    void testPutCustomArrayParametersMapWithMultipleParameters() {
+        warehouse.put(1, testParameters1);
+        warehouse.put(2, testParameters2);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(2, result.size());
@@ -130,13 +130,13 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("PutMyArrayParametersMap overwrites existing parameters")
-    void testPutCustomArrayParametersMapOverwritesExisting() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(1, testParameters1);
+    void testPutCustomArrayParametersMapOverwritesExisting() {
+        warehouse.put(1, testParameters1);
 
         CustomArrayParameters updatedParameters = new CustomArrayParameters(
                 1, "newMin", "newMax", 30.5, 300, 10, 1
         );
-        warehouse.putCustomArrayParametersMap(1, updatedParameters);
+        warehouse.put(1, updatedParameters);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(1, result.size());
@@ -148,7 +148,7 @@ class CustomArrayWarehouseTest {
     @DisplayName("PutMyArrayParametersMap with null parameters throws MyArrayException")
     void testPutCustomArrayParametersMapWithNullParametersThrowsException() {
         CustomArrayException exception = assertThrows(CustomArrayException.class,
-                () -> warehouse.putCustomArrayParametersMap(1, null));
+                () -> warehouse.put(1, null));
 
         assertEquals("Warehouse: myArrayParameter cannot be null", exception.getMessage());
 
@@ -158,8 +158,8 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("PutMyArrayParametersMap with negative ID")
-    void testPutCustomArrayParametersMapWithNegativeId() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(-1, testParameters1);
+    void testPutCustomArrayParametersMapWithNegativeId() {
+        warehouse.put(-1, testParameters1);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(1, result.size());
@@ -168,8 +168,8 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("PutMyArrayParametersMap with zero ID")
-    void testPutCustomArrayParametersMapWithZeroId() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(0, testParameters1);
+    void testPutCustomArrayParametersMapWithZeroId() {
+        warehouse.put(0, testParameters1);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(1, result.size());
@@ -178,8 +178,8 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("Multiple instances share same state")
-    void testMultipleInstancesShareSameState() throws CustomArrayException {
-        warehouse.putCustomArrayParametersMap(1, testParameters1);
+    void testMultipleInstancesShareSameState() {
+        warehouse.put(1, testParameters1);
 
         CustomArrayWarehouse anotherInstance = CustomArrayWarehouse.getInstance();
 
@@ -190,12 +190,12 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("Put parameters with all zero values")
-    void testPutParametersWithAllZeroValues() throws CustomArrayException {
+    void testPutParametersWithAllZeroValues() {
         CustomArrayParameters zeroParameters = new CustomArrayParameters(
                 5, "zero", "zero", 0.0, 0, 0, 0
         );
 
-        warehouse.putCustomArrayParametersMap(5, zeroParameters);
+        warehouse.put(5, zeroParameters);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(zeroParameters, result.get(5));
@@ -203,12 +203,12 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("Put parameters with negative values")
-    void testPutParametersWithNegativeValues() throws CustomArrayException {
+    void testPutParametersWithNegativeValues() {
         CustomArrayParameters negativeParameters = new CustomArrayParameters(
                 6, "min", "max", -5.5, -100, 0, 10
         );
 
-        warehouse.putCustomArrayParametersMap(6, negativeParameters);
+        warehouse.put(6, negativeParameters);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(negativeParameters, result.get(6));
@@ -216,9 +216,9 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("Put parameters with large ID")
-    void testPutParametersWithLargeId() throws CustomArrayException {
+    void testPutParametersWithLargeId() {
         int largeId = Integer.MAX_VALUE;
-        warehouse.putCustomArrayParametersMap(largeId, testParameters1);
+        warehouse.put(largeId, testParameters1);
 
         Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
         assertEquals(testParameters1, result.get(largeId));

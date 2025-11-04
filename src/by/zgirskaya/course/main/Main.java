@@ -3,7 +3,7 @@ package by.zgirskaya.course.main;
 import by.zgirskaya.course.entity.CustomArray;
 import by.zgirskaya.course.exception.CustomArrayException;
 import by.zgirskaya.course.observer.impl.CustomArrayObserverImpl;
-import by.zgirskaya.course.parser.impl.StringParserImpl;
+import by.zgirskaya.course.parser.impl.CustomStringParserImpl;
 import by.zgirskaya.course.reader.impl.CustomStringReaderImpl;
 import by.zgirskaya.course.service.operation.impl.CustomArrayOperationImpl;
 import by.zgirskaya.course.service.sort.impl.CustomArraySortImpl;
@@ -85,7 +85,7 @@ public class Main {
 
     private static String[][] parseFile(String content) throws CustomArrayException {
         logger.info("🔍 === STEP 2: Parsing File ===");
-        StringParserImpl parser = new StringParserImpl();
+        CustomStringParserImpl parser = new CustomStringParserImpl();
 
         logger.info("Parsing file content...");
         String[][] arrays = parser.parseFile(content);

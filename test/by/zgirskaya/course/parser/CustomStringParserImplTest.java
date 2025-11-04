@@ -1,7 +1,7 @@
 package by.zgirskaya.course.parser;
 
 import by.zgirskaya.course.exception.CustomArrayException;
-import by.zgirskaya.course.parser.impl.StringParserImpl;
+import by.zgirskaya.course.parser.impl.CustomStringParserImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,13 +11,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StringParserImplTest {
+class CustomStringParserImplTest {
 
-    private StringParserImpl parser;
+    private CustomStringParserImpl parser;
 
     @BeforeEach
     void setUp() {
-        parser = new StringParserImpl();
+        parser = new CustomStringParserImpl();
     }
 
     @Test

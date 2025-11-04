@@ -10,6 +10,7 @@ import java.util.*;
 public class CustomArrayRepositoryImpl {
 
     private static final Logger logger = LogManager.getLogger();
+
     private final List<CustomArray> customArrays = new ArrayList<>();
 
     public boolean addMyArray(CustomArray customArray) {

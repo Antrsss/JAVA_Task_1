@@ -1,7 +1,6 @@
 package by.zgirskaya.course.warehouse;
 
 import by.zgirskaya.course.entity.CustomArrayParameters;
-import by.zgirskaya.course.exception.CustomArrayException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +11,8 @@ public class CustomArrayWarehouse {
     private static final Logger logger = LogManager.getLogger();
 
     public static CustomArrayWarehouse instance;
-    private final Map<Integer, CustomArrayParameters> myArrayParametersMap = new HashMap<>();
+
+    private final Map<Integer, CustomArrayParameters> customArrayParametersMap = new HashMap<>();
 
     private CustomArrayWarehouse() {}
 
@@ -26,17 +26,15 @@ public class CustomArrayWarehouse {
         return instance;
     }
 
-    public Map<Integer, CustomArrayParameters> getCustomArrayParametersMap() {
-        logger.trace("Returning copy with {} entries", myArrayParametersMap.size());
-        return Map.copyOf(myArrayParametersMap);
-    }
-
-    public void putCustomArrayParametersMap(int id, CustomArrayParameters customArrayParameters) throws CustomArrayException {
+    public CustomArrayParameters put(Integer id, CustomArrayParameters customArrayParameters) {
         if (customArrayParameters == null) {
             logger.warn("Attempt to put null MyArrayParameters for id: {}", id);
-            throw new CustomArrayException("Warehouse: myArrayParameter cannot be null");
         }
+        return customArrayParametersMap.put(id, customArrayParameters);
+    }
 
-        myArrayParametersMap.put(id, customArrayParameters);
+    public Map<Integer, CustomArrayParameters> getCustomArrayParametersMap() {
+        logger.info("Returning copy with {} entries", customArrayParametersMap.size());
+        return Map.copyOf(customArrayParametersMap);
     }
 }

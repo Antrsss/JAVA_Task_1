@@ -11,51 +11,16 @@ public class CustomArray implements CustomArrayObservable {
     private static final Logger logger = LogManager.getLogger();
     private static int idCounter = 1;
 
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private String[] array;
-
-        public Builder setMyArray(String[] array) {
-            if (array == null) {
-                this.array = new String[0];
-            } else {
-                this.array = Arrays.copyOf(array, array.length);
-            }
-
-            return this;
-        }
-
-        public CustomArray build() {
-            logger.debug("Building MyArray with {} elements", array.length);
-            return new CustomArray(array);
-        }
-    }
-
     private int id;
     private String[] array;
     private CustomArrayObserver observer;
-
-    private CustomArray(String[] array) {
-        if (array == null) {
-            this.array = new String[0];
-        } else {
-            this.array = Arrays.copyOf(array, array.length);
-        }
-        id = nextId();
-        idCounter++;
-
-        logger.debug("MyArray created with size: {}", this.array.length);
-    }
 
     public int getId() {
         return this.id;
     }
 
     private static int nextId() {
-        return (idCounter + 1);
+        return ++idCounter;
     }
 
     public String[] getMyArray() {
@@ -166,6 +131,41 @@ public class CustomArray implements CustomArrayObservable {
     public void notifyObservers() {
         if (observer != null) {
             observer.handleEvent(this);
+        }
+    }
+
+    private CustomArray(String[] array) {
+        if (array == null) {
+            this.array = new String[0];
+        } else {
+            this.array = Arrays.copyOf(array, array.length);
+        }
+        id = nextId();
+        idCounter++;
+
+        logger.debug("MyArray created with size: {}", this.array.length);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String[] array;
+
+        public Builder setMyArray(String[] array) {
+            if (array == null) {
+                this.array = new String[0];
+            } else {
+                this.array = Arrays.copyOf(array, array.length);
+            }
+
+            return this;
+        }
+
+        public CustomArray build() {
+            logger.debug("Building MyArray with {} elements", array.length);
+            return new CustomArray(array);
         }
     }
 }

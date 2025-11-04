@@ -1,7 +1,7 @@
 package by.zgirskaya.course.parser.impl;
 
 import by.zgirskaya.course.exception.CustomArrayException;
-import by.zgirskaya.course.parser.StringParser;
+import by.zgirskaya.course.parser.CustomStringParser;
 import by.zgirskaya.course.validator.impl.CustomArrayValidatorImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +9,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringParserImpl implements StringParser {
+public class CustomStringParserImpl implements CustomStringParser {
+
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -82,6 +83,4 @@ public class StringParserImpl implements StringParser {
 
         return result;
     }
-
-
 }

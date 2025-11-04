@@ -2,7 +2,7 @@ package by.zgirskaya.course.parser;
 
 import by.zgirskaya.course.exception.CustomArrayException;
 
-public interface StringParser {
+public interface CustomStringParser {
 
     String ELEMENT_DIVIDER_REGEX = "\\s+";
     String ARRAY_DIVIDER_REGEX = "\\r?\\n";

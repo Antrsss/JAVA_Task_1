@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CustomStringReaderImpl implements CustomStringReader {
+
     private static final Logger logger = LogManager.getLogger(CustomStringReaderImpl.class);
 
     public String readStringFromFile(String filePath) throws CustomArrayException {

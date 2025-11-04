@@ -10,26 +10,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CustomArrayObserverImpl implements CustomArrayObserver {
-    private static final Logger logger = LogManager.getLogger();
-    private final CustomArrayWarehouse warehouse;
-    private final CustomArrayOperationImpl arrayOperations;
 
-    public CustomArrayObserverImpl() {
-        this.warehouse = CustomArrayWarehouse.getInstance();
-        this.arrayOperations = new CustomArrayOperationImpl();
-        logger.debug("MyArrayObserverImpl initialized");
-    }
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public void handleEvent(CustomArray customArray) {
-        if (customArray == null) {
-            logger.error("Cannot handle event for null MyArray");
-            return;
-        }
+        CustomArrayWarehouse warehouse = CustomArrayWarehouse.getInstance();
 
         try {
             CustomArrayParameters parameters = calculateParametersUsingOperations(customArray);
-            warehouse.putCustomArrayParametersMap(customArray.getId(), parameters);
+            warehouse.put(customArray.getId(), parameters);
 
             logger.debug("Updated parameters for MyArray id {} in warehouse", customArray.getId());
 
@@ -44,6 +34,8 @@ public class CustomArrayObserverImpl implements CustomArrayObserver {
 
     private CustomArrayParameters calculateParametersUsingOperations(CustomArray customArray)
             throws CustomArrayException {
+
+        var arrayOperations = new CustomArrayOperationImpl();
 
         logger.debug("Calculating parameters for MyArray id: {}", customArray.getId());
 
