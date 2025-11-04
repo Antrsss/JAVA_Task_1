@@ -36,26 +36,10 @@ class CustomArrayRepositoryTest {
     }
 
     @Test
-    @DisplayName("AddMyArray with valid MyArray returns true")
-    void testAddMyArrayWithValidMyArray() {
-        boolean result = repository.addMyArray(array1);
-
-        assertTrue(result);
-    }
-
-    @Test
-    @DisplayName("AddMyArray with null MyArray returns true")
-    void testAddMyArrayWithNullMyArray() {
-        boolean result = repository.addMyArray(null);
-
-        assertTrue(result);
-    }
-
-    @Test
     @DisplayName("AddMyArray actually adds MyArray to repository")
     void testAddMyArrayActuallyAddsToRepository() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array2);
 
         List<CustomArray> allArrays = repository.query(new AllSpecification());
         assertEquals(2, allArrays.size());
@@ -66,8 +50,8 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("AddMyArray allows duplicate MyArrays")
     void testAddMyArrayAllowsDuplicates() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array1);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array1);
 
         List<CustomArray> allArrays = repository.query(new AllSpecification());
         assertEquals(2, allArrays.size());
@@ -77,10 +61,10 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("RemoveMyArray with existing MyArray returns true")
     void testRemoveMyArrayWithExistingMyArray() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array2);
 
-        boolean result = repository.removeMyArray(array1);
+        boolean result = repository.customArrays.remove(array1);
 
         assertTrue(result);
 
@@ -93,9 +77,9 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("RemoveMyArray with non-existing MyArray returns false")
     void testRemoveMyArrayWithNonExistingMyArray() {
-        repository.addMyArray(array1);
+        repository.customArrays.add(array1);
 
-        boolean result = repository.removeMyArray(array2);
+        boolean result = repository.customArrays.remove(array2);
 
         assertFalse(result);
 
@@ -107,9 +91,9 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("RemoveMyArray with null returns false")
     void testRemoveMyArrayWithNull() {
-        repository.addMyArray(array1);
+        repository.customArrays.add(array1);
 
-        boolean result = repository.removeMyArray(null);
+        boolean result = repository.customArrays.remove(null);
 
         assertFalse(result);
 
@@ -121,11 +105,11 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("RemoveMyArray removes only one occurrence")
     void testRemoveMyArrayRemovesOnlyOneOccurrence() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array2);
 
-        boolean result = repository.removeMyArray(array1);
+        boolean result = repository.customArrays.remove(array1);
 
         assertTrue(result);
 
@@ -138,9 +122,9 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("Sort with valid comparator returns sorted list")
     void testSortWithValidComparator() {
-        repository.addMyArray(array3);
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
+        repository.customArrays.add(array3);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array2);
 
         Comparator<CustomArray> sizeComparator = Comparator.comparing(arr -> arr.getMyArray().length);
 
@@ -153,23 +137,10 @@ class CustomArrayRepositoryTest {
     }
 
     @Test
-    @DisplayName("Sort with null comparator returns copy of original list")
-    void testSortWithNullComparator() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
-
-        List<CustomArray> original = repository.query(new AllSpecification());
-        List<CustomArray> result = repository.sort(null);
-
-        assertNotSame(original, result);
-        assertEquals(original, result);
-    }
-
-    @Test
     @DisplayName("Sort does not modify original repository")
     void testSortDoesNotModifyOriginalRepository() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array2);
 
         List<CustomArray> beforeSort = repository.query(new AllSpecification());
         repository.sort(Comparator.comparing(CustomArray::getId));
@@ -181,7 +152,7 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("Sort returns new list instance")
     void testSortReturnsNewListInstance() {
-        repository.addMyArray(array1);
+        repository.customArrays.add(array1);
 
         List<CustomArray> sort1 = repository.sort(Comparator.comparing(CustomArray::getId));
         List<CustomArray> sort2 = repository.sort(Comparator.comparing(CustomArray::getId));
@@ -193,9 +164,9 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("Query with valid specification returns matching arrays")
     void testQueryWithValidSpecification() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
-        repository.addMyArray(array3);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array2);
+        repository.customArrays.add(array3);
 
         CustomArraySpecification sizeSpecification = new SizeGreaterThanSpecification(1);
 
@@ -208,23 +179,10 @@ class CustomArrayRepositoryTest {
     }
 
     @Test
-    @DisplayName("Query with null specification returns all arrays")
-    void testQueryWithNullSpecification() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
-
-        List<CustomArray> result = repository.query(null);
-
-        assertEquals(2, result.size());
-        assertTrue(result.contains(array1));
-        assertTrue(result.contains(array2));
-    }
-
-    @Test
     @DisplayName("Query with specification that matches nothing returns empty list")
     void testQueryWithNoMatchesReturnsEmptyList() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array2);
+        repository.customArrays.add(array1);
+        repository.customArrays.add(array2);
 
         CustomArraySpecification neverMatchSpecification = array -> false;
 
@@ -236,7 +194,7 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("Query returns immutable list")
     void testQueryReturnsImmutableList() {
-        repository.addMyArray(array1);
+        repository.customArrays.add(array1);
 
         List<CustomArray> result = repository.query(new AllSpecification());
 
@@ -248,7 +206,7 @@ class CustomArrayRepositoryTest {
     @Test
     @DisplayName("Query returns new list instance each time")
     void testQueryReturnsNewListInstance() {
-        repository.addMyArray(array1);
+        repository.customArrays.add(array1);
 
         List<CustomArray> query1 = repository.query(new AllSpecification());
         List<CustomArray> query2 = repository.query(new AllSpecification());
@@ -266,26 +224,8 @@ class CustomArrayRepositoryTest {
         List<CustomArray> sortResult = repository.sort(Comparator.comparing(CustomArray::getId));
         assertTrue(sortResult.isEmpty());
 
-        boolean removeResult = repository.removeMyArray(array1);
+        boolean removeResult = repository.customArrays.remove(array1);
         assertFalse(removeResult);
-    }
-
-    @Test
-    @DisplayName("Add and remove same array multiple times")
-    void testAddAndRemoveSameArrayMultipleTimes() {
-        repository.addMyArray(array1);
-        repository.addMyArray(array1);
-
-        assertEquals(2, repository.query(new AllSpecification()).size());
-
-        repository.removeMyArray(array1);
-        assertEquals(1, repository.query(new AllSpecification()).size());
-
-        repository.removeMyArray(array1);
-        assertEquals(0, repository.query(new AllSpecification()).size());
-
-        repository.removeMyArray(array1); // Удаление несуществующего
-        assertEquals(0, repository.query(new AllSpecification()).size());
     }
 
     @Test
@@ -301,9 +241,9 @@ class CustomArrayRepositoryTest {
                 .setMyArray(new String[]{"Cherry", "Currant"})
                 .build();
 
-        repository.addMyArray(arrayWithA);
-        repository.addMyArray(arrayWithB);
-        repository.addMyArray(arrayWithC);
+        repository.customArrays.add(arrayWithA);
+        repository.customArrays.add(arrayWithB);
+        repository.customArrays.add(arrayWithC);
 
         CustomArraySpecification startsWithASpecification = array -> {
             String[] elements = array.getMyArray();

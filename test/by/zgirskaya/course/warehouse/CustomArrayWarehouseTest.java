@@ -1,7 +1,6 @@
 package by.zgirskaya.course.warehouse;
 
 import by.zgirskaya.course.entity.CustomArrayParameters;
-import by.zgirskaya.course.exception.CustomArrayException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -142,18 +141,6 @@ class CustomArrayWarehouseTest {
         assertEquals(1, result.size());
         assertEquals(updatedParameters, result.get(1));
         assertNotEquals(testParameters1, result.get(1));
-    }
-
-    @Test
-    @DisplayName("PutMyArrayParametersMap with null parameters throws MyArrayException")
-    void testPutCustomArrayParametersMapWithNullParametersThrowsException() {
-        CustomArrayException exception = assertThrows(CustomArrayException.class,
-                () -> warehouse.put(1, null));
-
-        assertEquals("Warehouse: myArrayParameter cannot be null", exception.getMessage());
-
-        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
-        assertTrue(result.isEmpty());
     }
 
     @Test

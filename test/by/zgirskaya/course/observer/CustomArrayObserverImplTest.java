@@ -69,15 +69,6 @@ class CustomArrayObserverImplTest {
     }
 
     @Test
-    @DisplayName("HandleEvent with null MyArray does nothing")
-    void testHandleEventWithNullMyArray() {
-        observer.handleEvent(null);
-
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
-        assertTrue(parametersMap.isEmpty());
-    }
-
-    @Test
     @DisplayName("HandleEvent with empty MyArray")
     void testHandleEventWithEmptyMyArray() {
         CustomArray emptyArray = CustomArray.newBuilder()

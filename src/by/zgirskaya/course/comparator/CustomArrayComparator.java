@@ -36,7 +36,7 @@ public enum CustomArrayComparator implements Comparator<CustomArray> {
 
             logger.debug("MIN_SUM comparison result: (sum1={} vs sum2={})", minValue1, minValue2);
 
-            return minValue1 - minValue2;
+            return Math.min(minValue1, minValue2);
         }
     },
     MAX_SIZE {
@@ -46,7 +46,7 @@ public enum CustomArrayComparator implements Comparator<CustomArray> {
             int length2 = arr2.getMyArray().length;
 
             logger.debug("MAX_SIZE comparison result: (length1={} vs length2={})", length1, length2);
-            return length1 - length2;
+            return Math.max(length1, length2);
         }
     };
 

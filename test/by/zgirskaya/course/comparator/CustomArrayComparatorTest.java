@@ -1,7 +1,6 @@
 package by.zgirskaya.course.comparator;
 
 import by.zgirskaya.course.entity.CustomArray;
-import by.zgirskaya.course.exception.CustomArrayException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
