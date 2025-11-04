@@ -46,7 +46,7 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("GetInstance returns same instance")
-    void testGetInstanceReturnsSameInstance() {
+    void testGetMapInstanceReturnsSameInstance() {
         CustomArrayWarehouse instance1 = CustomArrayWarehouse.getInstance();
         CustomArrayWarehouse instance2 = CustomArrayWarehouse.getInstance();
 
@@ -55,7 +55,7 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("GetInstance creates new instance only once")
-    void testGetInstanceCreatesInstanceOnlyOnce() throws Exception {
+    void testGetMapInstanceCreatesInstanceOnlyOnce() throws Exception {
         CustomArrayWarehouse instance1 = CustomArrayWarehouse.getInstance();
         CustomArrayWarehouse instance2 = CustomArrayWarehouse.getInstance();
 
@@ -69,8 +69,8 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("GetMyArrayParametersMap returns empty map for new warehouse")
-    void testGetCustomArrayParametersMapReturnsEmptyMapForNewWarehouse() {
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+    void testGetMapForNewWarehouse() {
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -79,11 +79,11 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("GetMyArrayParametersMap returns copy of internal map")
-    void testGetCustomArrayParametersMapReturnsCopy() {
+    void testGetMapReturnsCopy() {
         warehouse.put(1, testParameters1);
 
-        Map<Integer, CustomArrayParameters> copy1 = warehouse.getCustomArrayParametersMap();
-        Map<Integer, CustomArrayParameters> copy2 = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> copy1 = warehouse.getMap();
+        Map<Integer, CustomArrayParameters> copy2 = warehouse.getMap();
 
         assertNotSame(copy1, copy2);
 
@@ -94,9 +94,9 @@ class CustomArrayWarehouseTest {
 
     @Test
     @DisplayName("GetMyArrayParametersMap returns immutable map")
-    void testGetCustomArrayParametersMapReturnsImmutableMap() {
+    void testGetMap() {
         warehouse.put(1, testParameters1);
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
 
         assertThrows(UnsupportedOperationException.class,
                 () -> result.put(2, testParameters2));
@@ -111,7 +111,7 @@ class CustomArrayWarehouseTest {
     void testPutCustomArrayParametersMapWithValidParameters() {
         warehouse.put(1, testParameters1);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(1, result.size());
         assertEquals(testParameters1, result.get(1));
     }
@@ -122,7 +122,7 @@ class CustomArrayWarehouseTest {
         warehouse.put(1, testParameters1);
         warehouse.put(2, testParameters2);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(2, result.size());
         assertEquals(testParameters1, result.get(1));
         assertEquals(testParameters2, result.get(2));
@@ -138,7 +138,7 @@ class CustomArrayWarehouseTest {
         );
         warehouse.put(1, updatedParameters);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(1, result.size());
         assertEquals(updatedParameters, result.get(1));
         assertNotEquals(testParameters1, result.get(1));
@@ -152,7 +152,7 @@ class CustomArrayWarehouseTest {
 
         assertEquals("Warehouse: myArrayParameter cannot be null", exception.getMessage());
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertTrue(result.isEmpty());
     }
 
@@ -161,7 +161,7 @@ class CustomArrayWarehouseTest {
     void testPutCustomArrayParametersMapWithNegativeId() {
         warehouse.put(-1, testParameters1);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(1, result.size());
         assertEquals(testParameters1, result.get(-1));
     }
@@ -171,7 +171,7 @@ class CustomArrayWarehouseTest {
     void testPutCustomArrayParametersMapWithZeroId() {
         warehouse.put(0, testParameters1);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(1, result.size());
         assertEquals(testParameters1, result.get(0));
     }
@@ -183,7 +183,7 @@ class CustomArrayWarehouseTest {
 
         CustomArrayWarehouse anotherInstance = CustomArrayWarehouse.getInstance();
 
-        Map<Integer, CustomArrayParameters> result = anotherInstance.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = anotherInstance.getMap();
         assertEquals(1, result.size());
         assertEquals(testParameters1, result.get(1));
     }
@@ -197,7 +197,7 @@ class CustomArrayWarehouseTest {
 
         warehouse.put(5, zeroParameters);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(zeroParameters, result.get(5));
     }
 
@@ -210,7 +210,7 @@ class CustomArrayWarehouseTest {
 
         warehouse.put(6, negativeParameters);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(negativeParameters, result.get(6));
     }
 
@@ -220,7 +220,7 @@ class CustomArrayWarehouseTest {
         int largeId = Integer.MAX_VALUE;
         warehouse.put(largeId, testParameters1);
 
-        Map<Integer, CustomArrayParameters> result = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> result = warehouse.getMap();
         assertEquals(testParameters1, result.get(largeId));
     }
 }

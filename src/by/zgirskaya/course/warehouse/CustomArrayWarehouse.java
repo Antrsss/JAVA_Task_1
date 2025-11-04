@@ -22,7 +22,6 @@ public class CustomArrayWarehouse {
             instance = new CustomArrayWarehouse();
         }
 
-        logger.trace("Returning MyArrayWarehouse instance");
         return instance;
     }
 
@@ -33,7 +32,7 @@ public class CustomArrayWarehouse {
         return customArrayParametersMap.put(id, customArrayParameters);
     }
 
-    public Map<Integer, CustomArrayParameters> getCustomArrayParametersMap() {
+    public Map<Integer, CustomArrayParameters> getMap() {
         logger.info("Returning copy with {} entries", customArrayParametersMap.size());
         return Map.copyOf(customArrayParametersMap);
     }

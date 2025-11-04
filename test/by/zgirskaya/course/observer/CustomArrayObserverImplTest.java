@@ -58,7 +58,7 @@ class CustomArrayObserverImplTest {
     void testHandleEventWithValidMyArrayUpdatesWarehouse() {
         observer.handleEvent(testCustomArray);
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
         assertEquals(1, parametersMap.size());
 
         CustomArrayParameters storedParameters = parametersMap.get(testCustomArray.getId());
@@ -73,7 +73,7 @@ class CustomArrayObserverImplTest {
     void testHandleEventWithNullMyArray() {
         observer.handleEvent(null);
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
         assertTrue(parametersMap.isEmpty());
     }
 
@@ -86,7 +86,7 @@ class CustomArrayObserverImplTest {
 
         assertDoesNotThrow(() -> observer.handleEvent(emptyArray));
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
 
         if (parametersMap.containsKey(emptyArray.getId())) {
             CustomArrayParameters storedParameters = parametersMap.get(emptyArray.getId());
@@ -109,7 +109,7 @@ class CustomArrayObserverImplTest {
 
         observer.handleEvent(singleElementArray);
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
         assertEquals(1, parametersMap.size());
 
         CustomArrayParameters storedParameters = parametersMap.get(singleElementArray.getId());
@@ -127,7 +127,7 @@ class CustomArrayObserverImplTest {
 
         observer.handleEvent(uppercaseArray);
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
         CustomArrayParameters storedParameters = parametersMap.get(uppercaseArray.getId());
 
         assertTrue(storedParameters.arraySum() > 0);
@@ -145,7 +145,7 @@ class CustomArrayObserverImplTest {
 
         observer.handleEvent(lowercaseArray);
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
         CustomArrayParameters storedParameters = parametersMap.get(lowercaseArray.getId());
 
         assertTrue(storedParameters.arraySum() < 0);
@@ -163,7 +163,7 @@ class CustomArrayObserverImplTest {
 
         observer.handleEvent(mixedCaseArray);
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
         CustomArrayParameters storedParameters = parametersMap.get(mixedCaseArray.getId());
 
         assertNotNull(storedParameters);
@@ -174,13 +174,13 @@ class CustomArrayObserverImplTest {
     void testHandleEventMultipleTimesWithSameMyArray() {
         observer.handleEvent(testCustomArray);
 
-        Map<Integer, CustomArrayParameters> firstParameters = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> firstParameters = warehouse.getMap();
         assertEquals(1, firstParameters.size());
         CustomArrayParameters firstStored = firstParameters.get(testCustomArray.getId());
 
         observer.handleEvent(testCustomArray);
 
-        Map<Integer, CustomArrayParameters> secondParameters = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> secondParameters = warehouse.getMap();
         assertEquals(1, secondParameters.size());
         CustomArrayParameters secondStored = secondParameters.get(testCustomArray.getId());
 
@@ -202,7 +202,7 @@ class CustomArrayObserverImplTest {
         observer.handleEvent(array1);
         observer.handleEvent(array2);
 
-        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getCustomArrayParametersMap();
+        Map<Integer, CustomArrayParameters> parametersMap = warehouse.getMap();
         assertEquals(2, parametersMap.size());
         assertNotNull(parametersMap.get(array1.getId()));
         assertNotNull(parametersMap.get(array2.getId()));
